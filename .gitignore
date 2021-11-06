@@ -1,0 +1,25 @@
+## PhpStorm
+.idea
+*.idea
+/node_modules
+/public/hot
+/public/storage
+/public/index__.html
+/storage/*.key
+/vendor
+.env
+.env.backup
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+.buildpath
+.project
+.settings
+composer.lock
+Thumbs.db
+.Trashes
+.DS_Store
+.DS_Store?
+._*
