@@ -1,4 +1,3 @@
-
 ## About PhpMongoAdmin
 
 PhpMongoAdmin is a Web-based MongoDb management console, written in PHP and leveraging great tools like Laravel and Vue.
@@ -13,38 +12,16 @@ The familiar interface allows you to manage many different aspects of your Mongo
 - Administration tools.
 
 PhpMongoAdmin is accessible, easy to setup, easy to learn and provides plenty of tools required for day to day MongoDB management.
+## Docker Stand-Alone Build
 
-## Learning MongoDB
+This build of PhpMongoAdmin comes as a stand-alone docker build environment.  
+### This is not a docker image build: check our docker image repository for that one!
+You should use this build if you want to try out PhpMongoAdmin outside your existing development environments or if you don't have a web server handy.  
+This build allows you to test the application anywhere, including any Windows box with Docker Desktop installed.
 
-PhpMongoAdmin provides full [documentation](https://phpmongoadmin.com/support/documentation) along with some video tutorials, making it a breeze to get started with the management interface.
+### Getting started
+This short list of steps should get you up and running with minimal fuss.
 
-If you've used other tools like PhpMyAdmin or the old RockMongo application then you'll find PhpMongoAdmin to be very familiar.
+- Before getting starting, make sure you can run: $ docker-compose - from a command line prompt
+- Clone or download (then unzip) this repository to a suitable directory
 
-## PhpMongoAdmin Sponsors
-
-We are very new, and have big plans for our up and coming range of MongoDB tools. If your keen to get involved as a Sponsor or Developer please let us know, we welcome all potential partners.
-
-### Premium Partners
-
-- **[MFMAW](https://mfmaw.com/)**
-
-### Community Sponsors
-
-- [LOTS OF ROOM HERE]
-- [MFMAW](https://mfmaw.com)
-
-## Contributing
-
-Thank you for considering contributing to the PHP MongoDB Admin! The contribution guide can be found in the [PhpMongoAdmin documentation](https://phpmongoadmin.com/support/documentation/contributions).
-
-## Code of Conduct
-
-In order to ensure that our PHP MongoDB Tools community is welcoming to all, please review and abide by the [Code of Conduct](https://phpmongoadmin.com/support/documentation/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability in any PHP MongoDB Tools, please send an e-mail to Gilbert Rehling via [gilbert@phpmongoadmin.com](mailto:gilbert@phpmongoadmin.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The PhpMongoAdmin application is open-sourced software licensed under the [GNU GPLv3 license](https://www.gnu.org/licenses/gpl-3.0.html).

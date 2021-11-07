@@ -24,4 +24,3 @@ This short list of steps should get you up and running with minimal fuss.
 
 - Before getting starting, make sure you can run: $ docker-compose - from a command line prompt
 - Clone or download (then unzip) this repository to a suitable directory
-
