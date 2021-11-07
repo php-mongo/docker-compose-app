@@ -5,7 +5,7 @@ ARG WITH_XDEBUG_PROFILE=false
 
 # Basic requirements also include mongod
 RUN apt-get update -y \
-    && apt-get install \
+    && apt-get install -y \
       libxml2-dev \
       libjpeg-dev \
       libpng-dev \
@@ -27,8 +27,8 @@ RUN apt-get update -y \
         --with-freetype-dir=/usr/include/ \
         --with-png-dir=/usr/include/ \
         --with-jpeg-dir=/usr/include/ \
-    && NPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) \
-    && docker-php-ext-install -j${NPROC} \
+    && NPROC=$(grep -c ^processor /proc/cpuinfo 2 > /dev/null || 1) \
+    && docker-php-ext-install -j ${NPROC} \
         bcmath \
         calendar \
         ctype \
