@@ -4,8 +4,6 @@ services:
         image: mongo:4.4.3
         networks:
             - database
-        depends_on:
-            - php-mongo-web
         restart: always
         environment:
             MONGO_INITDB_ROOT_USERNAME: localAdmin
