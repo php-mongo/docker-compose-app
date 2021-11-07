@@ -11,6 +11,7 @@ RUN apt-get update -y \
       libpng-dev \
       libfreetype6-dev \
       libpq-dev \
+      libzip-dev \
       autoconf \
       gcc \
       coreutils \
