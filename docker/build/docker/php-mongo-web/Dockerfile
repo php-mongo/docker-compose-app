@@ -29,27 +29,26 @@ RUN apt-get update -y \
         --with-jpeg-dir=/usr/include/ \
     && NPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) \
     && docker-php-ext-install -j${NPROC} \
+        bcmath \
         calendar \
         ctype \
-        bcmath \
         exif \
         fileinfo \
-        soap \
         gd \
+        gettext \
+        initl \
+        json \
+        mbstring \
         mysqli \
         opcache \
-        initl \
+        openssl \
+        PDO \
         pdo_mysql \
-        mbstring \
+        pdo_sqlite \
+        soap \
+        sqlite3 \
         tokenizer \
         zip \
-        gettext \
-        sqlite \
-        pdo_sqlite \
-        json \
-        mongodb \
-        openssl \
-        pdo \
         xml
 
 # Install composer - taken from composer dockerfile
