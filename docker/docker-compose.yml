@@ -22,7 +22,7 @@ services:
         build:
             context: ./build/docker/php-mongo-web
             args:
-                - WITH_XDEBUG=$(WITH_XDEBUG}
+                - WITH_XDEBUG=${WITH_XDEBUG}
                 - WITH_XDEBUG_PROFILE=${WITH_XDEBUG_PROFILE}
         networks:
             - database
