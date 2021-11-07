@@ -1,0 +1,45 @@
+version: 3.5
+services:
+    php-mongo-db:
+        image: mongo:4.4.3
+        networks:
+            - database
+        depends_on:
+            - php-mongo-web
+        restart: always
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: localAdmin
+            MONGO_INITDB_ROOT_PASSWORD: Abcd1234
+            MONGO_INITDB_DATABASE: phpmongoadmin
+        volumes:
+            - mongo:/var/lib/mongo:delegated
+            - ./phpmongoadmin-init.js:/docker-entrypoint-initdb/mongo-init.js:ro
+            - ./build/docker/php-mongo-web/config/mongod.conf:/etc/mongod.conf:rw
+        ports:
+            - "27017:27017"
+
+    php-mongo-web:
+        build:
+            context: ./build/docker/php-mongo-web
+            args:
+                - WITH_XDEBUG=$(WITH_XDEBUG}
+                - WITH_XDEBUG_PROFILE=${WITH_XDEBUG_PROFILE}
+        networks:
+            - database
+        depends_on:
+            - php-mongo-db
+        volumes:
+            - ../:/usr/share/phpMongoAdmin:delegated
+            - ./profile:/tmp/xdebug:rw
+        environment:
+            - XDEBUG_CONFIG
+        ports:
+            - "80:80"
+            - "443:443"
+
+networks:
+    database:
+        driver: "bridge"
+volumes:
+    mongo:
+
