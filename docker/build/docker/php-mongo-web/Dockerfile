@@ -43,6 +43,7 @@ RUN apt-get update \
     && apt-get install -y libicu-dev \
     && docker-php-ext-configure intl \
     && docker-php-ext-install -j$(nproc) \
+        intl
 
 # xml
 RUN apt-get update \
@@ -86,18 +87,18 @@ RUN apt-get update \
           zip \
           bz2 \
 
-# ssh2 \
+# ssh2
 RUN apt-get update \
     && apt-get install -y \
     libssh2-1-dev
 
-# memcached \
+# memcached
 RUN apt-get update \
     && apt-get install -y \
         libmemcached-dev \
         libmemcached11
 
-# the rest \
+# the rest
 RUN docker-php-ext-install -j$(nproc) \
     soap \
     sockets \
