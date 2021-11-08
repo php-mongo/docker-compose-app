@@ -57,10 +57,14 @@ RUN apt-get update \
           xsl
 
 # database
-RUN docker-php-ext-install -j$(nproc) \
-    mysqli \
-    pdo \
-    pdo_sqlite
+RUN apt-get update \
+    && apt-get install -y \
+        sqlite3 \
+        libsqlite3-dev \
+        && docker-php-ext-install -j$(nproc) \
+            mysqli \
+            pdo \
+            pdo_sqlite
 
 # strings
 RUN apt-get-update \
