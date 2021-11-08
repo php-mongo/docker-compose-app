@@ -22,7 +22,6 @@ RUN apt-get update -y \
       gcc \
       g++ \
       git \
-      libmcrypt \
       make \
       openssl \
       pkg-config \
@@ -36,7 +35,8 @@ RUN apt-get update \
         libfreetype6-dev \
         libpq-dev \
         libcurl4-openssl-dev \
-        libssl-dev
+        libssl-dev \
+        libmcrypt
 
 # PHP modules
 # Intl
