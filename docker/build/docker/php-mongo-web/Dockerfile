@@ -67,7 +67,7 @@ RUN apt-get update \
             pdo_sqlite
 
 # strings
-RUN apt-get-update \
+RUN apt-get update \
     && apt-get install -y libonig-dev \
     && docker-php-ext-install -j$(nproc) \
         gettext \
