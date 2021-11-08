@@ -37,7 +37,7 @@ RUN apt-get update -y \
         fileinfo \
         gettext \
         iconv \
-        initl \
+        intl \
         json \
         mbstring \
         mcrypt \
