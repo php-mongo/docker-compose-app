@@ -122,8 +122,8 @@ RUN pecl install mongodb
 RUN docker-php-ext-enable mongodb;
 RUN pecl install mcrypt
 RUN docker-php-ext-enable mcrypt;
-RUN pecl install memcached-3.1.4
-RUN docker-php-ext-enable memcached-3.1.4;
+RUN pecl install memcached
+RUN docker-php-ext-enable memcached;
 
 # Optional: redis for planned caching improvements
 #RUN pecl install -D 'enable-redis-igbinary="no" enable-redis-lxf="no" enable-redis-zstd="no"' redis
