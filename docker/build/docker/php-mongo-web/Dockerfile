@@ -85,12 +85,12 @@ RUN apt-get update \
         libzip-dev \
         && docker-php-ext-install -j$(nproc) \
           zip \
-          bz2 \
+          bz2
 
 # ssh2
 RUN apt-get update \
     && apt-get install -y \
-    libssh2-1-dev
+        libssh2-1-dev
 
 # memcached
 RUN apt-get update \
