@@ -30,6 +30,7 @@ RUN apt-get update -y \
       libssl-dev\
     && apt-get clean -y \
     && docker-php-ext-install -j$(nproc) \
+        opcache \
         bcmath \
         calendar \
         ctype \
@@ -41,7 +42,6 @@ RUN apt-get update -y \
         json \
         mbstring \
         mysqli \
-        opcache \
         openssl \
         pdo \
         pdo_mysql \
