@@ -165,7 +165,7 @@ RUN mkdir -p /tmp/scripts/ \
     && touch /tmp/scripts/profile.sh \
     && chmod +x /tmp/scripts/* \
     && cp /tmp/scripts/profile.sh /etc/profile.d/ \
-    && echo ". /etc/profile" >> !/.bashrc
+    && echo ". /etc/profile" >> ~/.bashrc
 
 # Cleanup
 RUN apt-get clean
