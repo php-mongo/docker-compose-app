@@ -1,7 +1,11 @@
 FROM php:7.3.28-apache-stretch
 
-ARG WITH_XDEBUG=false
-ARG WITH_XDEBUG_PROFILE=false
+MAINTAINER Gilbert Rehling <gilbert@phpmongoadmin.com>
+
+ENV PHPMONGOADMIN_STAND_ALONE=1
+
+#ARG WITH_XDEBUG=false
+#ARG WITH_XDEBUG_PROFILE=false###
 
 #&& docker-php-ext-configure gd \
 #        --with-gd \
@@ -9,15 +13,10 @@ ARG WITH_XDEBUG_PROFILE=false
 #        --with-png-dir=/usr/include/ \
 #        --with-jpeg-dir=/usr/include/ \
 #gd \
-# Basic requirements also include mongod
+
+# Basic system requirements
 RUN apt-get update -y \
     && apt-get install -y \
-      libxml2-dev \
-      libjpeg-dev \
-      libpng-dev \
-      libfreetype6-dev \
-      libpq-dev \
-      libzip-dev \
       autoconf \
       gcc \
       coreutils \
@@ -25,39 +24,121 @@ RUN apt-get update -y \
       make \
       git \
       unzip \
-      libcurl4-openssl-dev \
       pkg-config \
-      libssl-dev\
-    && apt-get clean -y \
+      openssl
+
+# System dev requirements
+RUN apt-get update \
+    && apt-get install -y \
+        libjpeg-dev \
+        libpng-dev \
+        libfreetype6-dev \
+        libpq-dev \
+        libcurl4-openssl-dev \
+        libssl-dev
+
+# PHP modules
+# Intl
+RUN apt-get update \
+    && apt-get install -y libicu-dev \
+    && docker-php-ext-configure intl \
     && docker-php-ext-install -j$(nproc) \
-        opcache \
-        bcmath \
-        calendar \
-        ctype \
-        exif \
-        fileinfo \
+
+# xml
+RUN apt-get update \
+    && apt-get install -y \
+        libxml2-dev \
+        libxslt-dev \
+        && docker-php-ext-install -j$(nproc) \
+          dom \
+          xmlrpc \
+          xml \
+          xsl
+
+# database
+RUN docker-php-ext-install -j$(nproc) \
+    mysqli \
+    pdo \
+    pdo_sqlite
+
+# strings
+RUN apt-get-update \
+    && apt-get install -y libonig-dev \
+    && docker-php-ext-install -j$(nproc) \
         gettext \
-        iconv \
-        intl \
-        json \
-        mbstring \
-        mysqli \
-        openssl \
-        pdo \
-        pdo_mysql \
-        pdo_sqlite \
-        soap \
-        tokenizer \
-        zip \
-        xml
+        mbstring
+
+# math
+RUN apt-get update \
+    && apt-get install -y libgmp-dev \
+    && ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h \
+    && docker-php-ext-install -j$(nproc) \
+        gmp \
+        bcmath
+
+# compression
+RUN apt-get update \
+    && apt-get install -y \
+        libbz2-dev \
+        zlib1g-dev \
+        libzip-dev \
+        && docker-php-ext-install -j$(nproc) \
+          zip \
+          bz2 \
+
+# ssh2 \
+RUN apt-get update \
+    && apt-get install -y \
+    libssh2-1-dev
+
+# memcached \
+RUN apt-get update \
+    && apt-get install -y \
+        libmemcached-dev \
+        libmemcached11
+
+# the rest \
+RUN docker-php-ext-install -j$(nproc) \
+    soap \
+    sockets \
+    calendar \
+    ctype \
+    exif \
+    fileinfo \
+    iconv \
+    intl \
+    json \
+    tokenizer \
+    opcache
+
+# PECL installs
+RUN docker-php-pecl-install \
+    mongodb \
+    mcrypt \
+    memcached-3.1.4
+
+#RUN docker-php-ext-enable mongodb;
+#RUN docker-php-ext-enable mcrypt;
+
+# Optional: redis for planned caching improvements
+#RUN pecl install -D 'enable-redis-igbinary="no" enable-redis-lxf="no" enable-redis-zstd="no"' redis
+#RUN docker-php-ext-enable redis;
+
+# Install XDebug, but not enable by default. Enable using:
+# * php -d$XDEBUG_EXT vendor/bin/phpunit
+# * php_xdebug vendor/bin/phpunit
+RUN pecl install xdebug
+ENV XDEBUG_EXT zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20190902/xdebug.so
+RUN alias php_xdebug="php -d$XDEBUG_EXT vendor/bin/phpunit"
 
 # Install composer - taken from composer dockerfile
 ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_HOME /tmp
-COPY --from=composer:1.10 /usr/bin/composer /usr/bin/composer
-
-# For composer v1 a handy tool to get multiple packes at the same time
-#RUN composer global require hirak/prestissimo
+#COPY --from=composer:1.10 /usr/bin/composer /usr/bin/composer
+# Install composer and put binary into $PATH
+RUN curl -sS https://getcomposer.org/installer | php \
+	&& mv composer.phar /usr/local/bin/ \
+	&& ln -s /usr/local/bin/composer.phar /usr/local/bin/composer
 
 # Copy the php.ini file
 COPY ./config/php.ini-development /usr/local/etc/php.ini
@@ -65,38 +146,6 @@ COPY ./config/php.ini-development /usr/local/etc/php.ini
 # Copy the web host configuration
 COPY ./config/phpMongoAdmin.conf /etc/apache2/conf-available/
 RUN ln -s /etc/apache2/conf-available/phpMongoAdmin.conf /etc/apache2/conf-enabled/phpMongoAdmin.conf
-
-# Include xdebug
-RUN pecl install xdebug
-
-# Allow connections to mongodb
-RUN pecl install mongodb
-RUN docker-php-ext-enable mongodb;
-
-# Install mcrypt
-RUN pecl intall mcrypt
-RUN docker-php-ext-enable mcrypt;
-
-# Optional: redis for planned caching improvements
-#RUN pecl install -D 'enable-redis-igbinary="no" enable-redis-lxf="no" enable-redis-zstd="no"' redis
-#RUN docker-php-ext-enable redis;
-
-# The entrypont willsetup xdebug if needed
-#COPY xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-#RUN chmod 777 /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-RUN if [ $WITH_XDEBUG = "true"] ; then \
-    docker-php-ext-enable xdebug; \
-    echo "xdebug.profiler_enabled=1" >> /user/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
-    echo "display_startup_errors = On" >> /usr/local/etc/php/docker-php-ext-xdebug.ini; \
-    echo "display_errors = On" >> /usr/local/etc/php/docker-php-ext-xdebug.ini; \
-    echo "xdebug.remote_enable=1" >> /usr/local/etc/php/docker-php-ext-xdebug.ini; \
-fi;
-
-# Setup xdebug profiler if required
-RUN if [ $WITH_XDEBUG = "true"] && [ $WITH_XDEBUG_PROFILE = "true" ]; then \
-    echo "xdebug.profiler_enable=1" >> /usr/local/etc/php/docker-php-ext-xdebug.ini; \
-    echo "xdebug.profiler_output_dir=\"/tmp/xdebug/\"" >> /usr/local/etc/php/docker-php-ext-xdebug.ini; \
-fi;
 
 # Set the working directory to make it easier to enter
 WORKDIR /usr/share/phpMongoAdmin
@@ -106,11 +155,15 @@ COPY ./scripts/*.sh /tmp/scripts/
 
 ENV BASH_ENV /etc/profile
 
-# Add bash helpers and extras. A bit of magic to tie everything together
+# Add bash helpers and extras. A bit of magic to glue everything together
 RUN mkdir -p /tmp/scripts/ \
     && touch /tmp/scripts/profile.sh \
     && chmod +x /tmp/scripts/* \
     && cp /tmp/scripts/profile.sh /etc/profile.d/ \
     && echo ". /etc/profile" >> !/.bashrc
+
+# Cleanup
+RUN apt-get clean
+RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/cache/*
 
 
