@@ -25,7 +25,7 @@ RUN apt-get update -y \
       make \
       openssl \
       pkg-config \
-      unzip \
+      unzip
 
 # System dev requirements
 RUN apt-get update \
