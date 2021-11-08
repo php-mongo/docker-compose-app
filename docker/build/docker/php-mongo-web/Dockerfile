@@ -3,6 +3,12 @@ FROM php:7.3.28-apache-stretch
 ARG WITH_XDEBUG=false
 ARG WITH_XDEBUG_PROFILE=false
 
+#&& docker-php-ext-configure gd \
+#        --with-gd \
+#        --with-freetype-dir=/usr/include/ \
+#        --with-png-dir=/usr/include/ \
+#        --with-jpeg-dir=/usr/include/ \
+#gd \
 # Basic requirements also include mongod
 RUN apt-get update -y \
     && apt-get install -y \
@@ -23,31 +29,25 @@ RUN apt-get update -y \
       pkg-config \
       libssl-dev\
     && apt-get clean -y \
-    && docker-php-ext-configure gd \
-        --with-gd \
-        --with-freetype-dir=/usr/include/ \
-        --with-png-dir=/usr/include/ \
-        --with-jpeg-dir=/usr/include/ \
-    && NPROC=$(grep -c ^processor /proc/cpuinfo 2 > /dev/null || 1) \
-    && docker-php-ext-install -j ${NPROC} \
+    && docker-php-ext-install -j$(nproc) \
         bcmath \
         calendar \
         ctype \
         exif \
         fileinfo \
-        gd \
         gettext \
+        iconv \
         initl \
         json \
         mbstring \
+        mcrypt \
         mysqli \
         opcache \
         openssl \
-        PDO \
+        pdo \
         pdo_mysql \
         pdo_sqlite \
         soap \
-        sqlite3 \
         tokenizer \
         zip \
         xml
