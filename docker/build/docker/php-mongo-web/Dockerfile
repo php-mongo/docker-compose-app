@@ -18,14 +18,15 @@ ENV PHPMONGOADMIN_STAND_ALONE=1
 RUN apt-get update -y \
     && apt-get install -y \
       autoconf \
-      gcc \
       coreutils \
+      gcc \
       g++ \
-      make \
       git \
-      unzip \
+      libmcrypt \
+      make \
+      openssl \
       pkg-config \
-      openssl
+      unzip \
 
 # System dev requirements
 RUN apt-get update \
