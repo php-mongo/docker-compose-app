@@ -36,7 +36,7 @@ RUN apt-get update \
         libpq-dev \
         libcurl4-openssl-dev \
         libssl-dev \
-        libmcrypt
+        libmcrypt-dev
 
 # PHP modules
 # Intl
