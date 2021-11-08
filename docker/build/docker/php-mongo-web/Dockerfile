@@ -40,7 +40,6 @@ RUN apt-get update -y \
         intl \
         json \
         mbstring \
-        mcrypt \
         mysqli \
         opcache \
         openssl \
@@ -73,6 +72,10 @@ RUN pecl install xdebug
 # Allow connections to mongodb
 RUN pecl install mongodb
 RUN docker-php-ext-enable mongodb;
+
+# Install mcrypt
+RUN pecl intall mcrypt
+RUN docker-php-ext-enable mcrypt;
 
 # Optional: redis for planned caching improvements
 #RUN pecl install -D 'enable-redis-igbinary="no" enable-redis-lxf="no" enable-redis-zstd="no"' redis
