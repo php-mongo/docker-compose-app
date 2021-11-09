@@ -153,7 +153,12 @@ COPY ./config/php.ini-development /usr/local/etc/php.ini
 RUN a2enmod rewrite
 COPY ./config/phpMongoAdmin.conf /etc/apache2/conf-available/
 RUN ln -s /etc/apache2/conf-available/phpMongoAdmin.conf /etc/apache2/conf-enabled/phpMongoAdmin.conf
+
+# Copy default index file for apache directory
 COPY ./config/index.html /var/www/html/index.html
+
+# Copy default .env file for Laravel RESTful API
+COPY ./.env.example ./.env
 
 # Set the working directory to make it easier to enter
 WORKDIR /usr/share/phpMongoAdmin
