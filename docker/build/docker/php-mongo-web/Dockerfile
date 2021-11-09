@@ -175,8 +175,6 @@ RUN mkdir -p /tmp/scripts/ \
     && cp /tmp/scripts/profile.sh /etc/profile.d/ \
     && echo ". /etc/profile" >> ~/.bashrc
 
-RUN /usr/local/composer install
-
 # Cleanup
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/cache/*
