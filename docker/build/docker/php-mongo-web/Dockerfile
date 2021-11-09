@@ -150,12 +150,13 @@ RUN curl -sS https://getcomposer.org/installer | php \
 COPY ./config/php.ini-development /usr/local/etc/php.ini
 
 # Copy the web host configuration
+RUN a2enmod rewrite
 COPY ./config/phpMongoAdmin.conf /etc/apache2/conf-available/
 RUN ln -s /etc/apache2/conf-available/phpMongoAdmin.conf /etc/apache2/conf-enabled/phpMongoAdmin.conf
 
-RUN if command -v a2enmod >/dev/null 2&2; then \
-    a2enmod rewrite headers \
-    ;fi
+#RUN if command -v a2enmod >/dev/null 2&2; then \
+#    a2enmod rewrite headers \
+#    ;fi
 # Set the working directory to make it easier to enter
 WORKDIR /usr/share/phpMongoAdmin
 
