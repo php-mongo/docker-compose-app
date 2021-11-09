@@ -67,6 +67,7 @@ pmasetup() {
         $(fmtHelp "up" "Start the docker containers")"
 
         echo "${COLOR_NONE}$HELP"
+        ;;
 
     *)
           echo "${COLOR_RED}Unknown action provided"
