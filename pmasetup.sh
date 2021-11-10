@@ -75,7 +75,7 @@ pmasetup() {
         # check env file exists
         if [ ! -e .env ]; then
             echo "${COLOR_RED} env file missing - copying example"
-            cp --verbose SOURCE TARGET
+            cp --verbose $SOURCE $TARGET
         fi;\
         winpty docker exec -it $DOCKER_WEB bash -c "cd /usr/share/phpMongoAdmin && composer $*"
         ;;
