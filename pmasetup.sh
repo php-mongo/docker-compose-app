@@ -1,14 +1,13 @@
 #!/bin/bash
 
-#PMA_DIR=$(exec 2>/dev/null;cd -- $(dirname "${BASH_SOURCE:-$0}"); unset PWD; /usr/bin/pwd || /bin/pwd || pwd)
 PMA_DIR=$(exec 2>/dev/null; unset PWD; /usr/bin/pwd || /bin/pwd || pwd)
 
 pmasetup() {
     BASE_LOC=$(echo "$PMA_DIR" | rev | cut -d'/' -f3- | rev)
 
     COMPOSE_FILE="./docker/docker-compose.yml"
-    DOCKER_WEB="docker_php-mongo-web"
-    DOCKER_DB="docker_php-mongo-db"
+    DOCKER_WEB="docker_php-mongo-web_1"
+    DOCKER_DB="docker_php-mongo-db_1"
 
     COLOR_RED="$(tput setaf 1)"
     COLOR_NONE="$(tput sgr0)"
