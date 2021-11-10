@@ -3,7 +3,7 @@
 PMA_DIR=$(exec 2>/dev/null; unset PWD; /usr/bin/pwd || /bin/pwd || pwd)
 
 pmasetup() {
-    BASE_LOC=$(echo "$PMA_DIR" | rev | cut -d'/' -f3- | rev)
+    #BASE_LOC=$(echo "$PMA_DIR" | rev | cut -d'/' -f3- | rev)
 
     COMPOSE_FILE="./docker/docker-compose.yml"
     DOCKER_WEB="docker_php-mongo-web_1"
@@ -14,7 +14,7 @@ pmasetup() {
     COLOR_BLUE="$(tput setaf 6)"
 
     echo "${COLOR_BLUE}Working DIR: $PMA_DIR"
-    echo "${COLOR_BLUE}Base Loc: $BASE_LOC"
+    #echo "${COLOR_BLUE}Base Loc: $BASE_LOC"
 
     COMMAND=$1
 
