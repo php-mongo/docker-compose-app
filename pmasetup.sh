@@ -6,6 +6,8 @@ pmasetup() {
     BASE_LOC=$(echo "$PMA_DIR" | rev | cut -d'/' -f3- | rev)
 
     COMPOSE_FILE="./docker/docker-compose.yml"
+    DOCKER_WEB="docker_php-mongo-web"
+    DOCKER_DB="docker_php-mongo-db"
 
     COLOR_RED="$(tput setaf 1)"
     COLOR_NONE="$(tput sgr0)"
@@ -17,7 +19,7 @@ pmasetup() {
     # Set arg #1 to 1 to enable xdebug
     # Set arg #2 to 1 to enable profiling as well
     do-build() {
-        cd "$FUSION_DIR" || return 1
+        cd "PMA_DIR" || return 1
 
         if ! test -f "$COMPOSE_FILE"; then
             echo "${COLOR_RED}Can't find docker compose, exiting.."
@@ -31,14 +33,14 @@ pmasetup() {
     }
 
     do-up () {
-        cd "$FUSION_DIR" || return 1
+        cd "$PMA_DIR" || return 1
 
         docker-compose up -d
         cd "$OLDPWD" || exit
     }
 
     do-composer () {
-        docker exec -it $DOCKER_NAME /bin/bash -c "cd /var/www/html/app/ && composer install"
+        docker exec -it $DOCKER_WEB /bin/bash -c "cd /usr/share/phpMongoAdmin/ && composer install"
     }
 
     # handle the requested function
@@ -48,14 +50,14 @@ pmasetup() {
         ;;
 
     build)
-        do-build;
+        do-build
 
         do-composer
         ;;
 
     composer)
         shift
-        docker exec -it $DOCKER_NAME /bin/bash -c "cd /var/www/html/app/ && composer $*"
+        docker exec -it $DOCKER_WEB /bin/bash -c "cd /usr/share/phpMongoAdmin && composer $*"
         ;;
 
     help)
