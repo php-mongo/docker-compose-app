@@ -13,6 +13,9 @@ pmasetup() {
     COLOR_NONE="$(tput sgr0)"
     COLOR_BLUE="$(tput setaf 6)"
 
+    echo "${COLOR_BLUE}Working DIR: $PMA_DIR"
+    echo "${COLOR_BLUE}WBasle Loc: $BASE_LOC"
+
     COMMAND=$1
 
     # Completely rebuilds fusion - eg. Xdebug change
