@@ -139,7 +139,7 @@ RUN alias php_xdebug="php -d$XDEBUG_EXT vendor/bin/phpunit"
 
 # Install composer - taken from composer dockerfile
 ENV COMPOSER_ALLOW_SUPERUSER 1
-ENV COMPOSER_HOME /tmp
+#ENV COMPOSER_HOME /tmp
 #COPY --from=composer:1.10 /usr/bin/composer /usr/bin/composer
 # Install composer and put binary into $PATH
 RUN curl -sS https://getcomposer.org/installer | php \
@@ -166,14 +166,14 @@ WORKDIR /usr/share/phpMongoAdmin
 # Copy any user scripts to the container
 COPY ./scripts/*.sh /tmp/scripts/
 
-ENV BASH_ENV /etc/profile
+#ENV BASH_ENV /etc/profile
 
 # Add bash helpers and extras. A bit of magic to glue everything together
-RUN mkdir -p /tmp/scripts/ \
-    && touch /tmp/scripts/profile.sh \
-    && chmod +x /tmp/scripts/* \
-    && cp /tmp/scripts/profile.sh /etc/profile.d/ \
-    && echo ". /etc/profile" >> ~/.bashrc
+#RUN mkdir -p /tmp/scripts/ \
+#    && touch /tmp/scripts/profile.sh \
+#    && chmod +x /tmp/scripts/* \
+#    && cp /tmp/scripts/profile.sh /etc/profile.d/ \
+#    && echo ". /etc/profile" >> ~/.bashrc
 
 CMD bash -c "composer install"
 
