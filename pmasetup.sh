@@ -74,7 +74,9 @@ pmasetup() {
         }
         HELP="Available actions:
         $(fmtHelp "build" "Build the docker images and start the container")
-        $(fmtHelp "up" "Start the docker containers")"
+        $(fmtHelp "up" "Start the docker containers")
+        $(fmtHelp "composer" "Run composer on unix based systems")
+        $(fmtHelp "win-composer" "Run composer on Windows in Git Bash etcetera")"
 
         echo "${COLOR_NONE}$HELP"
         ;;
