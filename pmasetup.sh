@@ -43,7 +43,7 @@ pmasetup() {
     }
 
     do-composer () {
-        docker exec -it $DOCKER_WEB /bin/bash -c "cd /usr/share/phpMongoAdmin/ && composer install"
+        docker exec $DOCKER_WEB /bin/bash -c "cd /usr/share/phpMongoAdmin/ && composer install"
     }
 
     # handle the requested function
@@ -62,6 +62,11 @@ pmasetup() {
         shift
         docker exec -it $DOCKER_WEB /bin/bash -c "cd /usr/share/phpMongoAdmin && composer $*"
         ;;
+
+    win-composer)
+            shift
+            winpty docker exec -it $DOCKER_WEB /bin/bash -c "cd /usr/share/phpMongoAdmin && composer $*"
+            ;;
 
     help)
         fmtHelp () {
