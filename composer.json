@@ -91,7 +91,7 @@
             "@php artisan package:discover --ansi"
         ],
         "post-root-package-install": [
-            "@php -r \"file_exists('.env') || copy('./docker/build/docker/php-mongo-web/config/env.example', '.env');\""
+            "@php -r \"file_exists('.env') || copy('docker/build/docker/php-mongo-web/config/env.example', '.env');\""
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
