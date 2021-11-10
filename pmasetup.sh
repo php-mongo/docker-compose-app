@@ -65,7 +65,7 @@ pmasetup() {
 
     win-composer)
             shift
-            winpty docker exec -it $DOCKER_WEB /bin/bash -c "cd /usr/share/phpMongoAdmin && composer $*"
+            winpty docker exec -it $DOCKER_WEB bash -c "cd /usr/share/phpMongoAdmin && composer $*"
             ;;
 
     help)
