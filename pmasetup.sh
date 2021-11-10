@@ -53,7 +53,7 @@ pmasetup() {
         ;;
 
     build)
-        cp --verbose ./docker/build/docker/pma-mongo-admin/config/env.example ./.env
+        cp --verbose ./docker/build/docker/pma-mongo-admin/config/env.example .env
         do-build
 
         do-composer
@@ -64,7 +64,7 @@ pmasetup() {
         # check env file exists
         if [ ! -e .env ]; then
             echo "${COLOR_RED} env file missing - copying example"
-            cp cp --verbose ./docker/build/docker/pma-mongo-admin/config/env.example ./.env
+            cp cp --verbose ./docker/build/docker/pma-mongo-admin/config/env.example .env
         fi
         docker exec -it $DOCKER_WEB /bin/bash -c "cd /usr/share/phpMongoAdmin && composer $*"
         ;;
@@ -74,7 +74,7 @@ pmasetup() {
         # check env file exists
         if [ ! -e .env ]; then
             echo "${COLOR_RED} env file missing - copying example"
-            cp cp --verbose ./docker/build/docker/pma-mongo-admin/config/env.example ./.env
+            cp cp --verbose ./docker/build/docker/pma-mongo-admin/config/env.example .env
         fi;\
         winpty docker exec -it $DOCKER_WEB bash -c "cd /usr/share/phpMongoAdmin && composer $*"
         ;;
