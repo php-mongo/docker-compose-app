@@ -175,7 +175,7 @@ RUN mkdir -p /tmp/scripts/ \
     && cp /tmp/scripts/profile.sh /etc/profile.d/ \
     && echo ". /etc/profile" >> ~/.bashrc
 
-RUN docker /usr/local/bin/composer install;
+CMD bash -c "composer install"
 
 # Cleanup
 RUN apt-get clean
