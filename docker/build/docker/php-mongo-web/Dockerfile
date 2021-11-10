@@ -159,7 +159,7 @@ COPY ./config/index.html /var/www/html/index.html
 
 # Copy default .env file for Laravel RESTful API
 #COPY ./config/env.example /usr/share/phpMongoAdmin/.env
-RUN cp ./config/env.example /usr/share/phpMongoAdmin/.env
+COPY ./config/env.example ./.env
 
 # Set the working directory to make it easier to enter
 WORKDIR /usr/share/phpMongoAdmin
