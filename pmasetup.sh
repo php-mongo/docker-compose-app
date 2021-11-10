@@ -24,7 +24,7 @@ pmasetup() {
     # Set arg #1 to 1 to enable xdebug
     # Set arg #2 to 1 to enable profiling as well
     do-build() {
-        cd "$PMA_DIR" || return 1
+        cd "$DOCKER_DIR" || return 1
 
         if ! test -f "$COMPOSE_FILE"; then
             echo "${COLOR_RED}Can't find docker compose, exiting.."
@@ -34,14 +34,14 @@ pmasetup() {
         docker-compose down -v
         docker-compose up -d --build
 
-        cd "$OLDPWD" || exit
+        cd "$PMA_DIR" || exit
     }
 
     do-up () {
-        cd "$PMA_DIR" || return 1
+        cd "$DOCKER_DIR" || return 1
 
         docker-compose up -d
-        cd "$OLDPWD" || exit
+        cd "$PMA_DIR" || exit
     }
 
     do-composer () {
