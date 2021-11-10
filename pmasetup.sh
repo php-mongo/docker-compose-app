@@ -6,7 +6,7 @@ pmasetup() {
     COMPOSE_FILE="./docker/docker-compose.yml"
     DOCKER_WEB="docker_php-mongo-web_1"
     DOCKER_DB="docker_php-mongo-db_1"
-    SOURCE="$PMA_DIR/docker/build/docker/pma-mongo-web/config/env.example"
+    SOURCE="docker/build/docker/pma-mongo-web/config/env.example"
     TARGET="$PMA_DIR/.env"
 
     COLOR_RED="$(tput setaf 1)"
@@ -75,7 +75,7 @@ pmasetup() {
         # check env file exists
         if [ ! -e .env ]; then
             echo "${COLOR_RED} env file missing - copying example"
-            cp --verbose $SOURCE $TARGET
+            cp --verbose $SOURCE .
         fi;\
         winpty docker exec -it $DOCKER_WEB bash -c "cd /usr/share/phpMongoAdmin && composer $*"
         ;;
