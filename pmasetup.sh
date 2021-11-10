@@ -37,6 +37,7 @@ pmasetup() {
         cd "$PMA_DIR" || exit
     }
 
+
     do-up () {
         cd "$DOCKER_DIR" || return 1
 
@@ -47,6 +48,10 @@ pmasetup() {
     do-composer () {
         docker exec $DOCKER_WEB /bin/bash -c "cd /usr/share/phpMongoAdmin/ && composer install"
     }
+
+     do-win-composer () {
+            winpty docker exec $DOCKER_WEB /bin/bash -c "cd /usr/share/phpMongoAdmin/ && composer install"
+        }
 
     # handle the requested function
     case $COMMAND in
@@ -59,6 +64,13 @@ pmasetup() {
         do-build
 
         do-composer
+        ;;
+
+    win-build)
+        #cp --verbose ./docker/build/docker/pma-mongo-admin/config/env.example .env
+        do-build
+
+        do-win-composer
         ;;
 
     composer)
@@ -89,6 +101,7 @@ pmasetup() {
         $(fmtHelp "build" "Build the docker images and start the container")
         $(fmtHelp "up" "Start the docker containers")
         $(fmtHelp "composer" "Run composer on unix based systems")
+        $(fmtHelp "win-build" "Run docker build on Windows in Git Bash etcetera")
         $(fmtHelp "win-composer" "Run composer on Windows in Git Bash etcetera")"
 
         echo "${COLOR_NONE}$HELP"
