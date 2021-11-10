@@ -79,7 +79,7 @@ pmasetup() {
           echo "${COLOR_RED}Unknown action provided"
           echo
 
-          fusion help
+          pmasetup help
           return 1
       esac
 
