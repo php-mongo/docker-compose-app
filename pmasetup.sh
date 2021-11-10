@@ -23,7 +23,7 @@ pmasetup() {
     # Set arg #1 to 1 to enable xdebug
     # Set arg #2 to 1 to enable profiling as well
     do-build() {
-        cd "PMA_DIR" || return 1
+        cd "$PMA_DIR" || return 1
 
         if ! test -f "$COMPOSE_FILE"; then
             echo "${COLOR_RED}Can't find docker compose, exiting.."
@@ -54,7 +54,7 @@ pmasetup() {
         ;;
 
     build)
-        cp --verbose ./docker/build/docker/pma-mongo-admin/config/env.example .env
+        #cp --verbose ./docker/build/docker/pma-mongo-admin/config/env.example .env
         do-build
 
         do-composer
