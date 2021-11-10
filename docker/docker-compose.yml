@@ -1,7 +1,6 @@
 version: "3.5"
 services:
     php-mongo-db:
-        tty: true
         image: mongo:4.4.3
         networks:
             - database
