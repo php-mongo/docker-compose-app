@@ -49,9 +49,9 @@ pmasetup() {
         docker exec $DOCKER_WEB /bin/bash -c "cd /usr/share/phpMongoAdmin/ && composer install"
     }
 
-     do-win-composer () {
-            winpty docker exec $DOCKER_WEB /bin/bash -c "cd /usr/share/phpMongoAdmin/ && composer install"
-        }
+    do-win-composer () {
+        winpty docker exec $DOCKER_WEB bash -c "cd /usr/share/phpMongoAdmin/ && composer install"
+    }
 
     # handle the requested function
     case $COMMAND in
