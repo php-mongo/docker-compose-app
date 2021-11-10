@@ -4,7 +4,7 @@ PMA_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd );
 
 pmasetup() {
     DOCKER_DIR="docker/"
-    COMPOSE_FILE="docker/docker-compose.yml"
+    COMPOSE_FILE="docker-compose.yml"
     DOCKER_WEB="docker_php-mongo-web_1"
     DOCKER_DB="docker_php-mongo-db_1"
     SOURCE="docker/build/docker/pma-mongo-web/config/env.example"
