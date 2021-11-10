@@ -1,6 +1,7 @@
 #!/bin/bash
 
-PMA_DIR=$(exec 2>/dev/null;cd -- $(dirname "${BASH_SOURCE:-$0}"); unset PWD; /usr/bin/pwd || /bin/pwd || pwd)
+#PMA_DIR=$(exec 2>/dev/null;cd -- $(dirname "${BASH_SOURCE:-$0}"); unset PWD; /usr/bin/pwd || /bin/pwd || pwd)
+PMA_DIR=$(exec 2>/dev/null; unset PWD; /usr/bin/pwd || /bin/pwd || pwd)
 
 pmasetup() {
     BASE_LOC=$(echo "$PMA_DIR" | rev | cut -d'/' -f3- | rev)
@@ -14,7 +15,7 @@ pmasetup() {
     COLOR_BLUE="$(tput setaf 6)"
 
     echo "${COLOR_BLUE}Working DIR: $PMA_DIR"
-    echo "${COLOR_BLUE}WBasle Loc: $BASE_LOC"
+    echo "${COLOR_BLUE}Base Loc: $BASE_LOC"
 
     COMMAND=$1
 
