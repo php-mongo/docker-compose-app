@@ -1,10 +1,8 @@
 #!/bin/bash
 
-PMA_DIR=$(exec 2>/dev/null; unset PWD; /usr/bin/pwd || /bin/pwd || pwd)
+PMA_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd );
 
 pmasetup() {
-    #BASE_LOC=$(echo "$PMA_DIR" | rev | cut -d'/' -f3- | rev)
-
     COMPOSE_FILE="./docker/docker-compose.yml"
     DOCKER_WEB="docker_php-mongo-web_1"
     DOCKER_DB="docker_php-mongo-db_1"
@@ -14,7 +12,6 @@ pmasetup() {
     COLOR_BLUE="$(tput setaf 6)"
 
     echo "${COLOR_BLUE}Working DIR: $PMA_DIR"
-    #echo "${COLOR_BLUE}Base Loc: $BASE_LOC"
 
     COMMAND=$1
 
@@ -64,7 +61,7 @@ pmasetup() {
         # check env file exists
         if [ ! -e .env ]; then
             echo "${COLOR_RED} env file missing - copying example"
-            cp cp --verbose ./docker/build/docker/pma-mongo-admin/config/env.example .env
+            cp --verbose ./docker/build/docker/pma-mongo-admin/config/env.example .env
         fi
         docker exec -it $DOCKER_WEB /bin/bash -c "cd /usr/share/phpMongoAdmin && composer $*"
         ;;
@@ -74,7 +71,7 @@ pmasetup() {
         # check env file exists
         if [ ! -e .env ]; then
             echo "${COLOR_RED} env file missing - copying example"
-            cp cp --verbose ./docker/build/docker/pma-mongo-admin/config/env.example .env
+            cp --verbose "$PMA_DIR/docker/build/docker/pma-mongo-admin/config/env.example" "$PMA_DIR/.env"
         fi;\
         winpty docker exec -it $DOCKER_WEB bash -c "cd /usr/share/phpMongoAdmin && composer $*"
         ;;
