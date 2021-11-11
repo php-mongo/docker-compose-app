@@ -7,7 +7,7 @@ pmasetup() {
     COMPOSE_FILE="docker-compose.yml"
     DOCKER_WEB="docker_php-mongo-web_1"
     DOCKER_DB="docker_php-mongo-db_1"
-    SOURCE="docker/build/docker/pma-mongo-web/config/env.example"
+    SOURCE="docker/build/pma-mongo-web/config/env.example"
     TARGET="$PMA_DIR/.env"
 
     COLOR_RED="$(tput setaf 1)"
@@ -53,6 +53,10 @@ pmasetup() {
         winpty docker exec $DOCKER_WEB bash -c "cd /usr/share/phpMongoAdmin/ && composer install"
     }
 
+    create-key () {
+        docker-compose exec $DOCKER_WEB php artisan key:generate --ansi
+    }
+
     # handle the requested function
     case $COMMAND in
     up)
@@ -60,17 +64,21 @@ pmasetup() {
         ;;
 
     build)
-        #cp --verbose ./docker/build/docker/pma-mongo-admin/config/env.example .env
+        cp --verbose $SOURCE .env
         do-build
 
         do-composer
+
+        create-key
         ;;
 
     win-build)
-        #cp --verbose ./docker/build/docker/pma-mongo-admin/config/env.example .env
+        cp --verbose $SOURCE .env
         do-build
 
         do-win-composer
+
+        create-key
         ;;
 
     composer)
@@ -78,7 +86,7 @@ pmasetup() {
         # check env file exists
         if [ ! -e .env ]; then
             echo "${COLOR_RED} env file missing - copying example"
-            cp --verbose SOURCE .env
+            return 0
         fi
         docker exec -it $DOCKER_WEB /bin/bash -c "cd /usr/share/phpMongoAdmin && composer $*"
         ;;
@@ -88,7 +96,7 @@ pmasetup() {
         # check env file exists
         if [ ! -e .env ]; then
             echo "${COLOR_RED} env file missing - copying example"
-            #cp --verbose $SOURCE .
+            return 0
         fi
         winpty docker exec -it $DOCKER_WEB bash -c "cd /usr/share/phpMongoAdmin && composer $*"
         ;;
@@ -108,12 +116,12 @@ pmasetup() {
         ;;
 
     *)
-          echo "${COLOR_RED}Unknown action provided"
-          echo
+        echo "${COLOR_RED}Unknown action provided"
+        echo
 
-          pmasetup help
-          return 1
-      esac
+        pmasetup help
+        return 1
+    esac
 
     return 0
 }

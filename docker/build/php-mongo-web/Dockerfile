@@ -147,19 +147,19 @@ RUN curl -sS https://getcomposer.org/installer | php \
 	&& ln -s /usr/local/bin/composer.phar /usr/local/bin/composer
 
 # Copy the php.ini file
-COPY ./config/php.ini-development /usr/local/etc/php.ini
+COPY config/php.ini-development /usr/local/etc/php.ini
 
 # Copy the web host configuration
 RUN a2enmod rewrite
-COPY ./config/phpMongoAdmin.conf /etc/apache2/conf-available/
+COPY config/phpMongoAdmin.conf /etc/apache2/conf-available/
 RUN ln -s /etc/apache2/conf-available/phpMongoAdmin.conf /etc/apache2/conf-enabled/phpMongoAdmin.conf
 
 # Copy default index file for apache directory
-COPY ./config/index.html /var/www/html/index.html
+COPY config/index.html /var/www/html/index.html
 
 # Copy default .env file for Laravel RESTful API
 #COPY ./config/env.example /usr/share/phpMongoAdmin/.env
-COPY ./config/env.example ./.env
+COPY config/env.example ./.env
 
 # Set the working directory to make it easier to enter
 WORKDIR /usr/share/phpMongoAdmin

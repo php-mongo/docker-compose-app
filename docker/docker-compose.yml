@@ -6,19 +6,21 @@ services:
             - database
         restart: always
         environment:
-            MONGO_INITDB_ROOT_USERNAME: localAdmin
-            MONGO_INITDB_ROOT_PASSWORD: Abcd1234
-            MONGO_INITDB_DATABASE: phpmongoadmin
+            MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+            MONGO_INITDB_ROOT_PASSWORD: ${MONGO_USER_PASSWD}
+            MONGO_INITDB_DATABASE: ${MONGO_INIT_DB}
         volumes:
             - mongo:/var/lib/mongo:delegated
             - ./phpmongoadmin-init.js:/docker-entrypoint-initdb/mongo-init.js:ro
-            - ./build/docker/php-mongo-web/config/mongod.conf:/etc/mongod.conf:rw
+            - ./build/php-mongo-web/config/mongod.conf:/etc/mongod.conf:rw
         ports:
             - "27017:27017"
 
     php-mongo-web:
+        env_file:
+          - docker.env
         build:
-            context: ./build/docker/php-mongo-web
+            context: build/php-mongo-web
             args:
                 - WITH_XDEBUG=${WITH_XDEBUG}
                 - WITH_XDEBUG_PROFILE=${WITH_XDEBUG_PROFILE}
