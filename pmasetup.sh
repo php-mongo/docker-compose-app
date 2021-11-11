@@ -26,10 +26,10 @@ pmasetup() {
     do-build() {
         cd "$DOCKER_DIR" || return 1
 
-        if ! test -f "$COMPOSE_FILE"; then
-            echo "${COLOR_RED}Can't find docker compose, exiting.."
-            return 1
-        fi
+        #if ! test -f "$COMPOSE_FILE"; then
+        #   echo "${COLOR_RED}Can't find docker compose, exiting.."
+        #    return 1
+        #fi
 
         docker-compose down -v
         docker-compose up -d --build
@@ -81,7 +81,7 @@ pmasetup() {
         #create-key
         if [ ! -e .env ]; then
             echo "${COLOR_RED} env file missing - copying example"
-            winpty docker $DOCKER_WEB sh 'cp docker/build/php-mongo-web/config/env.example .env'
+            winpty docker exec $DOCKER_WEB sh 'cp docker/build/php-mongo-web/config/env.example .env'
         fi
         winpty docker exec $DOCKER_WEB bash php artisan key:generate --ansi
         ;;
