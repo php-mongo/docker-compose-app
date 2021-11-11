@@ -158,8 +158,7 @@ RUN ln -s /etc/apache2/conf-available/phpMongoAdmin.conf /etc/apache2/conf-enabl
 COPY config/index.html /var/www/html/index.html
 
 # Copy default .env file for Laravel RESTful API
-#COPY ./config/env.example /usr/share/phpMongoAdmin/.env
-COPY config/env.example ./.env
+COPY config/env.example /usr/share/phpMongoAdmin/.env
 
 # Set the working directory to make it easier to enter
 WORKDIR /usr/share/phpMongoAdmin
@@ -175,8 +174,6 @@ RUN mkdir -p /tmp/scripts/ \
     && chmod +x /tmp/scripts/* \
     && cp /tmp/scripts/profile.sh /etc/profile.d/ \
     && echo ". /etc/profile" >> ~/.bashrc
-
-#CMD bash -c "composer install"
 
 # Cleanup
 RUN apt-get clean
