@@ -157,9 +157,6 @@ RUN ln -s /etc/apache2/conf-available/phpMongoAdmin.conf /etc/apache2/conf-enabl
 # Copy default index file for apache directory
 COPY config/index.html /var/www/html/index.html
 
-# Copy default .env file for Laravel RESTful API
-COPY config/env.example /usr/share/phpMongoAdmin/.env
-
 # Set the working directory to make it easier to enter
 WORKDIR /usr/share/phpMongoAdmin
 
