@@ -90,7 +90,7 @@ pmasetup() {
         #php artisan key:generate --ansi
         cd "$DOCKER_DIR" || return 1
         pwd
-        docker-compose exec $DOCKER_WEB php artisan key:generate --ansi
+        docker-compose exec $DOCKER_WEB bash "php artisan key:generate --ansi"
         ;;
 
     composer)
