@@ -90,7 +90,8 @@ pmasetup() {
             echo "${COLOR_RED} env file missing - copying example"
             cp docker/build/php-mongo-web/config/env.example .env
         fi
-        php artisan key:generate --ansi
+        #php artisan key:generate --ansi
+        docker-composer exec php artisan key:generate --ansi
         ;;
 
     composer)
