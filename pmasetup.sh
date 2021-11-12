@@ -91,7 +91,8 @@ pmasetup() {
             cp docker/build/php-mongo-web/config/env.example .env
         fi
         #php artisan key:generate --ansi
-        docker-composer exec php artisan key:generate --ansi
+        cd "$DOCKER_DIR" || return 1
+        docker-compose exec php artisan key:generate --ansi
         ;;
 
     composer)
