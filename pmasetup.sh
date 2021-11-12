@@ -85,12 +85,11 @@ pmasetup() {
         do-win-composer
 
         #create-key
+        winpty docker exec $DOCKER_WEB bash
         if [ ! -e .env ]; then
             echo "${COLOR_RED} env file missing - copying example"
-            winpty docker exec $DOCKER_WEB bash
             cp docker/build/php-mongo-web/config/env.example .env
         fi
-        winpty docker exec $DOCKER_WEB bash
         php artisan key:generate --ansi
         ;;
 
