@@ -26,11 +26,6 @@ pmasetup() {
     do-build() {
         cd "$DOCKER_DIR" || return 1
 
-        #if ! test -f "$COMPOSE_FILE"; then
-        #   echo "${COLOR_RED}Can't find docker compose, exiting.."
-        #    return 1
-        #fi
-
         docker-compose down -v
         docker-compose up -d --build
 
@@ -41,7 +36,9 @@ pmasetup() {
     do-up () {
         cd "$DOCKER_DIR" || return 1
 
+        docker-compose down -v
         docker-compose up -d
+
         cd "$PMA_DIR" || exit
     }
 
@@ -92,7 +89,8 @@ pmasetup() {
         fi
         #php artisan key:generate --ansi
         cd "$DOCKER_DIR" || return 1
-        docker-compose exec php artisan key:generate --ansi
+        pwd
+        docker-compose exec $DOCKER_WEB php artisan key:generate --ansi
         ;;
 
     composer)
