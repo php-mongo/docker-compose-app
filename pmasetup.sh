@@ -65,6 +65,9 @@ pmasetup() {
 
     build)
         cp --verbose $SOURCE .env
+
+        touch database/sqlite/database.sqlite
+
         do-build
 
         do-composer
@@ -74,6 +77,9 @@ pmasetup() {
 
     win-build)
         cp --verbose $SOURCE .env
+
+        touch database/sqlite/database.sqlite
+
         do-build
 
         do-win-composer
@@ -83,7 +89,7 @@ pmasetup() {
             echo "${COLOR_RED} env file missing - copying example"
             winpty docker exec $DOCKER_WEB sh 'cp docker/build/php-mongo-web/config/env.example .env'
         fi
-        winpty docker exec $DOCKER_WEB bash php artisan key:generate --ansi
+        winpty docker exec $DOCKER_WEB sh php artisan key:generate --ansi
         ;;
 
     composer)
