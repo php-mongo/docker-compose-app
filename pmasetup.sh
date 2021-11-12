@@ -4,25 +4,22 @@ PMA_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd );
 
 pmasetup() {
     DOCKER_DIR="docker/"
-    COMPOSE_FILE="docker-compose.yml"
+    #COMPOSE_FILE="docker-compose.yml"
     DOCKER_WEB="docker_php-mongo-web_1"
-    DOCKER_DB="docker_php-mongo-db_1"
+    #DOCKER_DB="docker_php-mongo-db_1"
     SOURCE="./docker/build/pma-mongo-web/config/env.example"
-    TARGET="$PMA_DIR/.env"
+    #TARGET="$PMA_DIR/.env"
 
     COLOR_RED="$(tput setaf 1)"
     COLOR_NONE="$(tput sgr0)"
     COLOR_BLUE="$(tput setaf 6)"
 
     echo "${COLOR_BLUE}Working DIR : $PMA_DIR"
-    echo "${COLOR_BLUE}source : $SOURCE"
-    echo "${COLOR_BLUE}target: $TARGET"
+    echo "${COLOR_BLUE}Env source : $SOURCE"
+    #echo "${COLOR_BLUE}target: $TARGET"
 
     COMMAND=$1
 
-    # Completely rebuilds fusion - eg. Xdebug change
-    # Set arg #1 to 1 to enable xdebug
-    # Set arg #2 to 1 to enable profiling as well
     do-build() {
         cd "$DOCKER_DIR" || return 1
 
@@ -50,10 +47,6 @@ pmasetup() {
         winpty docker exec $DOCKER_WEB bash -c "cd /usr/share/phpMongoAdmin/ && composer install"
     }
 
-    create-key () {
-        docker-compose exec $DOCKER_WEB php artisan key:generate --ansi
-    }
-
     # handle the requested function
     case $COMMAND in
     up)
@@ -61,36 +54,33 @@ pmasetup() {
         ;;
 
     build)
-        cp --verbose $SOURCE .env
-
         touch database/sqlite/database.sqlite
 
         do-build
 
         do-composer
 
-        create-key
+        # copy env
+        docker exec $DOCKER_WEB bash
+        if [ ! -e .env ]; then
+            echo "${COLOR_RED} env file missing - copying example"
+            cp docker/build/php-mongo-web/config/env.example .env
+        fi
         ;;
 
     win-build)
-        cp --verbose $SOURCE .env
-
         touch database/sqlite/database.sqlite
 
         do-build
 
         do-win-composer
 
-        #create-key
+        # copy env
         winpty docker exec $DOCKER_WEB bash
         if [ ! -e .env ]; then
             echo "${COLOR_RED} env file missing - copying example"
             cp docker/build/php-mongo-web/config/env.example .env
         fi
-        #php artisan key:generate --ansi
-        cd "$DOCKER_DIR" || return 1
-        pwd
-        docker-compose exec $DOCKER_WEB bash "php artisan key:generate --ansi"
         ;;
 
     composer)
@@ -98,7 +88,7 @@ pmasetup() {
         # check env file exists
         if [ ! -e .env ]; then
             echo "${COLOR_RED} env file missing - copying example"
-            return 0
+            cp docker/build/php-mongo-web/config/env.example .env
         fi
         docker exec -it $DOCKER_WEB /bin/bash -c "cd /usr/share/phpMongoAdmin && composer $*"
         ;;
@@ -108,7 +98,8 @@ pmasetup() {
         # check env file exists
         if [ ! -e .env ]; then
             echo "${COLOR_RED} env file missing - copying example"
-            return 0
+            winpty docker exec $DOCKER_WEB bash
+            cp docker/build/php-mongo-web/config/env.example .env
         fi
         winpty docker exec -it $DOCKER_WEB bash -c "cd /usr/share/phpMongoAdmin && composer $*"
         ;;

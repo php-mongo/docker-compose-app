@@ -1,7 +1,7 @@
 ## About PhpMongoAdmin
 
 PhpMongoAdmin is a Web-based MongoDb management console, written in PHP and leveraging great tools like Laravel and Vue.
-The familiar interface allows you to manage many different aspects of your MongoDB installation:
+The familiar interface allows you to manage many aspects of your MongoDB installation:
 
 - MongoDB installation status and overview.
 - Databases overview.
@@ -11,7 +11,7 @@ The familiar interface allows you to manage many different aspects of your Mongo
 - Processing overview.
 - Administration tools.
 
-PhpMongoAdmin is accessible, easy to setup, easy to learn and provides plenty of tools required for day to day MongoDB management.
+PhpMongoAdmin is accessible, easy to set up, easy to learn and provides plenty of tools required for day to day MongoDB management.
 
 ## Docker Stand-Alone Build
 
@@ -40,7 +40,7 @@ Follow these step to setup the environment
   - This file is required for Laravel and is designed to work out of the box
   - Advanced users can use adjust these settings to suit their needs
   - !! Do not populate the APP_KEY - it will be auto generated in later steps !!
-  - Read the docs for detailed instructions on handling these settings
+  - Read [the docs](https://phpmongoadmin.com/support/documentation) for detailed instructions on handling these settings
 - Open the file: 'docker/docker.env' with an editor such as Notepadd++
 - For enhanced security you should update the 'MONGO_USER' & 'MONGO_USER_PWD' values.
   - Make a note of these values: you can use them during the application setup for the 'Control User'
@@ -56,3 +56,19 @@ Type these commands at the prompt in the application root:
   - win-build uses 'winpty' as a command prefix (provide by Git for Windows)
 - On Unix based:
   - pmasetup build
+-To create the unique system key:
+  - On Windows:
+    - winpty docker exec -it docker_php-mongo-web_1 bash
+  - On Unix based:
+    - docker exec -it docker_php-mongo-web_1 bash
+  - This action will load the container in a shell:
+  - Run:
+    - php artisan key:generate --ansi
+
+#### You can now open a browser and load the 'localhost'
+
+Opening http://localhost with no path should load the default Html page.
+Opening the browser with http://localhost/phpmongoadmin should initialise the PhpMongoAdmin setup
+Read the [setup guide](https://phpmongoadmin.com/support/documentation/setup) in our docs for further guidance
+
+
