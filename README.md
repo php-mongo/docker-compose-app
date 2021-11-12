@@ -56,19 +56,19 @@ Type these commands at the prompt in the application root:
     - win-build uses 'winpty' as a command prefix (provide by Git for Windows)
 - On Unix based:
     - pmasetup build
-      -To create the unique system key:
+      -To access the container shell:
     - On Windows:
         - winpty docker exec -it docker_php-mongo-web_1 bash
     - On Unix based:
         - docker exec -it docker_php-mongo-web_1 bash
     - This action will load the container in a shell:
-    - Run:
+    - Run to generate the system key:
         - php artisan key:generate --ansi
+    - Run to create the default migrations:
+        - php artisan migrate
 
 #### You can now open a browser and load the 'localhost'
 
 Opening http://localhost with no path should load the default Html page.
 Opening the browser with http://localhost/phpmongoadmin should initialise the PhpMongoAdmin setup
 Read the [setup guide](https://phpmongoadmin.com/support/documentation/setup) in our docs for further guidance
-
-
