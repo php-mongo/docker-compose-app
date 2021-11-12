@@ -90,7 +90,7 @@ pmasetup() {
             winpty docker exec $DOCKER_WEB bash
             cp docker/build/php-mongo-web/config/env.example .env
         fi
-        winpty docker exec $DOCKER_WEB sh
+        winpty docker exec $DOCKER_WEB bash
         php artisan key:generate --ansi
         ;;
 
