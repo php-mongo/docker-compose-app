@@ -7,7 +7,7 @@ pmasetup() {
     COMPOSE_FILE="docker-compose.yml"
     DOCKER_WEB="docker_php-mongo-web_1"
     DOCKER_DB="docker_php-mongo-db_1"
-    SOURCE="docker/build/pma-mongo-web/config/env.example"
+    SOURCE="./docker/build/pma-mongo-web/config/env.example"
     TARGET="$PMA_DIR/.env"
 
     COLOR_RED="$(tput setaf 1)"
@@ -87,9 +87,11 @@ pmasetup() {
         #create-key
         if [ ! -e .env ]; then
             echo "${COLOR_RED} env file missing - copying example"
-            winpty docker exec $DOCKER_WEB sh 'cp docker/build/php-mongo-web/config/env.example .env'
+            winpty docker exec $DOCKER_WEB bash
+            cp docker/build/php-mongo-web/config/env.example .env
         fi
-        winpty docker exec $DOCKER_WEB sh php artisan key:generate --ansi
+        winpty docker exec $DOCKER_WEB sh
+        php artisan key:generate --ansi
         ;;
 
     composer)
