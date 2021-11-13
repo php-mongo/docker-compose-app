@@ -23,10 +23,13 @@ RUN apt-get update -y \
       gcc \
       g++ \
       git \
+      nmap \
       make \
       openssl \
       pkg-config \
-      unzip
+      unzip \
+      vim \
+      nano
 
 # System dev requirements
 RUN apt-get update \
