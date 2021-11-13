@@ -1,23 +1,23 @@
 #!/bin/bash
 
-dokey()
+function dokey()
 {
     php artisan key:generate --ansi
 }
 
-domigrate()
+function domigrate()
 {
     php artisan migrate
 }
 
-dopassport()
+function dopassport()
 {
     php artisan passport:install
     php artisan passport:keys
     php artisan passport:client --personal
 }
 
-dosetup()
+function dosetup()
 {
     dokey
     domigrate
