@@ -8,9 +8,9 @@ services:
             - database
         restart: always
         environment:
-            - MONGO_INITDB_ROOT_USERNAME:${MONGO_INITDB_ROOT_USERNAME}
-            - MONGO_INITDB_ROOT_PASSWORD:${MONGO_INITDB_ROOT_PASSWORD}
-            - MONGO_INITDB_DATABASE:${MONGO_INITDB_DATABASE}
+            - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+            - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+            - MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE}
         volumes:
             - mongo:/var/lib/mongo:delegated
             - ./phpmongoadmin-init.js:/docker-entrypoint-initdb/mongo-init.js:ro
@@ -24,8 +24,8 @@ services:
         build:
             context: build/php-mongo-web
             args:
-                - WITH_XDEBUG:${WITH_XDEBUG}
-                - WITH_XDEBUG_PROFILE:${WITH_XDEBUG_PROFILE}
+                - WITH_XDEBUG=false
+                - WITH_XDEBUG_PROFILE=false
         networks:
             - database
         depends_on:
