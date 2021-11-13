@@ -56,16 +56,23 @@ Type these commands at the prompt in the application root:
     - win-build uses 'winpty' as a command prefix (provide by Git for Windows)
 - On Unix based:
     - pmasetup build
-      -To access the container shell:
+- Once the build process has completed, access to container shell.
+  -To access the container shell:
     - On Windows:
         - winpty docker exec -it docker_php-mongo-web_1 bash
     - On Unix based:
         - docker exec -it docker_php-mongo-web_1 bash
-    - This action will load the container in a shell:
+    - You should now have a cli shell active on the container, run the following commands.
     - Run to generate the system key:
         - php artisan key:generate --ansi
     - Run to create the default migrations:
         - php artisan migrate
+    - Install the Passport encryption keys
+        - php artisan passport:install
+    - Deploy passport - generates key required to generate tokens
+        - php artisan passport:keys
+    - Create the passport 'personal key'
+        - php artisan passport:client --personal
 
 #### You can now open a browser and load the 'localhost'
 
