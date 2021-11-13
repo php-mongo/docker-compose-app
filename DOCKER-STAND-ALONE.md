@@ -66,6 +66,12 @@ Type these commands at the prompt in the application root:
     - php artisan key:generate --ansi
   - Run to create the default migrations:
     - php artisan migrate
+  - Install the Passport encryption keys
+    - php artisan passport:install
+  - Deploy passport - generates key required to generate tokens
+    - php artisan passport:keys
+  - Create the passport 'personal key'
+    - php artisan passport:client --personal
 
 #### You can now open a browser and load the 'localhost'
 
