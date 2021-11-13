@@ -164,15 +164,16 @@ COPY config/index.html /var/www/html/index.html
 WORKDIR /usr/share/phpMongoAdmin
 
 # Copy any user scripts to the container
+RUN mkdir -p /tmp/scripts
 COPY ./scripts/*.sh /tmp/scripts/
 
 ENV BASH_ENV /etc/profile
 
 # Add bash helpers and extras. A bit of magic to glue everything together
-RUN mkdir -p /tmp/scripts/ \
-    && touch /tmp/scripts/profile.sh \
+RUN touch /tmp/scripts/profile.sh \
     && chmod +x /tmp/scripts/* \
     && cp /tmp/scripts/profile.sh /etc/profile.d/ \
+    && cp /tmp/scripts/phpmongoadmin.sh /etc/profile.d/ \
     && echo ". /etc/profile" >> ~/.bashrc
 
 # Cleanup
