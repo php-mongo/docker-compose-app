@@ -35,8 +35,6 @@ services:
             - XDEBUG_CONFIG
         ports:
             - "80:80"
-        command:
-          - composer install
 
 networks:
     database:
