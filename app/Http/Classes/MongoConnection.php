@@ -274,7 +274,7 @@ class MongoConnection
         }
         if ($server['mongo_cloud'] === "0") {
             $prefix = (
-                strpos($server['host'], 'localhost') !== false ||
+                false !== strpos($server['host'], 'localhost') ||
                 config('app.isDockerApp') === true
             ) ? 'mongodb' : 'mongodb+srv';
             $uri = $prefix . '://' . $server['host'] . ':' . $server['port'];
