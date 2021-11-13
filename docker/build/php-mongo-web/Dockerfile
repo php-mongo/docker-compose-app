@@ -5,8 +5,8 @@ MAINTAINER Gilbert Rehling <gilbert@phpmongoadmin.com>
 
 ENV PHPMONGOADMIN_STAND_ALONE=1
 
-#ARG WITH_XDEBUG=false
-#ARG WITH_XDEBUG_PROFILE=false###
+ARG WITH_XDEBUG=false
+ARG WITH_XDEBUG_PROFILE=false
 
 #&& docker-php-ext-configure gd \
 #        --with-gd \
@@ -135,7 +135,7 @@ RUN docker-php-ext-enable memcached;
 # * php_xdebug vendor/bin/phpunit
 RUN pecl install xdebug
 ENV XDEBUG_EXT zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20190902/xdebug.so
-RUN alias php_xdebug="php -d$XDEBUG_EXT vendor/bin/phpunit"
+RUN alias php_xdebug="php -d $XDEBUG_EXT vendor/bin/phpunit"
 
 # Install composer - taken from composer dockerfile
 ENV COMPOSER_ALLOW_SUPERUSER 1
