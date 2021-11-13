@@ -1,6 +1,8 @@
 version: "3.5"
 services:
     php-mongo-db:
+        env_file:
+          - .docker.env
         image: mongo:4.4.3
         networks:
             - database
@@ -35,10 +37,13 @@ services:
             - XDEBUG_CONFIG
         ports:
             - "80:80"
+        command:
+          - composer install
 
 networks:
     database:
         driver: "bridge"
 volumes:
     mongo:
+
 

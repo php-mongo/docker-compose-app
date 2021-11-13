@@ -46,6 +46,9 @@ Follow these step to setup the environment
   - Make a note of these values: you can use them during the application setup for the 'Control User'
   - 'save & close' the configuration files
 
+#### You can check the detected configuration using this command
+- docker-composer config
+
 #### Now you are ready to execute the final setup commands
 
 Type these commands at the prompt in the application root:
