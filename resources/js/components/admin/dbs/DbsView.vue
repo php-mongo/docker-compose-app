@@ -139,7 +139,7 @@
                 databaseList: null,
                 display: false,
                 index: 0,
-                limit: 55,
+                limit: 50,
                 user: {},
             }
         },

@@ -85,6 +85,7 @@
                 error: null,
                 expanded: false,
                 collapsed: false,
+                index: 0,
                 limit: 5,
                 retries: 0,
                 retryInterval: null,
@@ -141,7 +142,7 @@
              */
             setError(error) {
                 if (error) {
-                    this.error = { error: error};
+                    this.error = { error: error };
                     return
                 }
                 let errorData = this.$store.getters.getAppErrorData
@@ -167,20 +168,20 @@
                 this.error = null
             },
 
-            /*
-            *   Retrieves the User from Vuex
-            */
-            /*getUser() {
-                this.user = this.$store.getters.getUser
-            },*/
-
-            handleGetUser() {
-                if (!this.user.id && this.retries < this.limit) {
+            handleCheckUser() {
+                let status = this.$store.getters.getUserLoadStatus;
+                if (status === 1 && this.index < this.limit) {
+                    this.index++;
                     setTimeout(() => {
-                        this.user = this.$store.getters.getUser
+                        this.handleCheckUser()
                     }, 100)
-                } else {
+                }
+                if (status === 2) {
+                    console.log("user loaded - checking permissions");
                     this.setPermissionError()
+                }
+                if (status === 3) {
+                    // user not authorized or other error
                 }
             },
 
@@ -196,7 +197,7 @@
                         this.retries = 0;
                         this.retryInterval = null
                     }
-                }, 5000 )
+                }, 5000)
             },
 
             retry()  {
@@ -216,6 +217,10 @@
             EventBus.$on('expand-left-nav', () => {
                 this.watchLeftNav()
             });
+
+            setTimeout(() => {
+                this.handleCheckUser()
+            }, 100)
         },
 
         watch: {

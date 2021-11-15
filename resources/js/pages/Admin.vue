@@ -116,7 +116,7 @@
         *   This component triggers the Ads download from the API
         */
         mounted() {
-           this.handleCheckUser()
+            this.handleCheckUser()
         }
     }
 </script>
