@@ -99,7 +99,7 @@
                 if (status === 1 && this.index < this.limit) {
                     this.index++;
                     setTimeout(() => {
-                        this.handleGetUser()
+                        this.handleCheckUser()
                     }, 100)
                 }
                 if (status === 2) {
