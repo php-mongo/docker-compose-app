@@ -4,11 +4,10 @@ PMA_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd );
 
 pmasetup() {
     DOCKER_DIR="docker/"
-    #COMPOSE_FILE="docker-compose.yml"
+    #COMPOSE_FILE="docker/docker-compose.yml"
     DOCKER_WEB="docker_php-mongo-web_1"
-    #DOCKER_DB="docker_php-mongo-db_1"
+    DOCKER_DB="docker_php-mongo-db_1"
     SOURCE="./docker/build/pma-mongo-web/config/env.example"
-    #TARGET="$PMA_DIR/.env"
 
     COLOR_RED="$(tput setaf 1)"
     COLOR_NONE="$(tput sgr0)"
@@ -16,7 +15,6 @@ pmasetup() {
 
     echo "${COLOR_BLUE}Working DIR : $PMA_DIR"
     echo "${COLOR_BLUE}Env source : $SOURCE"
-    #echo "${COLOR_BLUE}target: $TARGET"
 
     COMMAND=$1
 
@@ -28,7 +26,6 @@ pmasetup() {
 
         cd "$PMA_DIR" || exit
     }
-
 
     do-up () {
         cd "$DOCKER_DIR" || return 1
@@ -45,6 +42,14 @@ pmasetup() {
 
     do-win-composer () {
         winpty docker exec $DOCKER_WEB bash -c "cd /usr/share/phpMongoAdmin/ && composer install"
+    }
+
+    do-db () {
+        docker exec $DOCKER_DB /bin/bash -c "cd /docker-entrypoint-initdb/ && mongo -u ${MONGO_INITDB_ROOT_USERNAME} -p ${MONGO_INITDB_ROOT_PASSWORD} << mongo-init.js"
+    }
+
+    win-do-db() {
+        pty docker exec $DOCKER_DB bash -c "cd /docker-entrypoint-initdb/ && composer install"
     }
 
     # handle the requested function

@@ -11,11 +11,16 @@ The familiar interface allows you to manage many aspects of your MongoDB install
 - Processing overview.
 - Administration tools.
 
-PhpMongoAdmin is accessible, easy to set up, easy to learn and provides plenty of tools required for day to day MongoDB management.
+PhpMongoAdmin is source is located here: [gtihub.com/php-mongo/admin](https://github.com/php-mongo/admin).
 
 ## Docker Stand-Alone Build
 
-This build of PhpMongoAdmin comes as a stand-alone docker build environment.
+This build of PhpMongoAdmin comes as a stand-alone docker build environment.  
+It will create an application using Apache 2.4, MongoDb 4.4.3  
+A single index.html file is place into the default web root at: /var/www/html  
+You could add a volume path to: /var/www if you wanted to incorporate your own application.
+The 'docker-stand-alone' branch is currently a work in progress as of: 14th November 2021  
+It's currently being tested on a Windows 10 64bit environment.
 
 ### This is not a docker image build: check our docker image repository for that one!
 
@@ -66,6 +71,12 @@ Type these commands at the prompt in the application root:
     - On Unix based:
         - docker exec -it docker_php-mongo-web_1 bash
     - You should now have a cli shell active on the container, run the following commands.
+    - ! If the above commands fail to open the container`s BASH, you might need to access via Docker Desktop or try a cup of tea !
+    - If you have switched to the container shell, run the following single command:
+        - dosetup
+        - ! This should run a sequence of commands and display the results to the terminal !
+        - ! If this command cannot run or is not found, run the sequence of command below !
+    - ! Do not run these if the 'dosetup' command was successful !
     - Run to generate the system key:
         - php artisan key:generate --ansi
     - Run to create the default migrations:
@@ -76,9 +87,22 @@ Type these commands at the prompt in the application root:
         - php artisan passport:keys
     - Create the passport 'personal key'
         - php artisan passport:client --personal
+    - !! If you were unable to open the container shell earlier, and have accessed it another way you may not have direct access to the 'dosetup' command
+    - You can run the command like this:
+        - First ensure you are in the application root:
+            - pwd ( should display /usr/share/phpMongoAdmin)
+            - try: dosetup
+            - if you get something like: /bin/sh: 21: dosetup: not found
+            - try this:
+            - /bin/bash -c "source /etc/profile.d/phpmongoadmin.sh && dosetup"
+            - This will run the same sequence of commands
 
 #### You can now open a browser and load the 'localhost'
 
 Opening http://localhost with no path should load the default Html page.
 Opening the browser with http://localhost/phpmongoadmin should initialise the PhpMongoAdmin setup
 Read the [setup guide](https://phpmongoadmin.com/support/documentation/setup) in our docs for further guidance
+
+### Things to be aware of
+
+1) If you have successfully created the 'Control User' and logged in to the application, but at some later time you decide to rebuild the docker from scratch you will need to clear the 'user`s token' from 'Local Storage' in your browser.
