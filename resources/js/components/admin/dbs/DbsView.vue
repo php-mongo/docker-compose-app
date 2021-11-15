@@ -200,7 +200,7 @@
                         this.handleGetUser()
                     }, 100)
                 }
-                if (status === 3) {
+                if (status === 2) {
                     this.checkUserType();
                 }
                 if (status === 3) {
@@ -213,7 +213,12 @@
              */
             checkUserType() {
                 if (this.$store.getters.getCanUserReadDatabase === false) {
-                    let roles = this.user.user_role.roles;
+                    let roles = [];
+                    if (this.user) {
+                        if (this.user.user_role) {
+                            roles = this.user.user_role.roles;
+                        }
+                    }
                     let userAdmin = [
                         'userAdmin',
                         'userAdminAnyDatabase'
