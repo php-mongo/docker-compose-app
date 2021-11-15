@@ -8,6 +8,7 @@ function domigrate {
     php artisan migrate
 }
 
+## Some of these call will repeat certain actions within Passport
 function dopassport {
     php artisan passport:install
     php artisan passport:keys
