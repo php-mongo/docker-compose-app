@@ -4,6 +4,7 @@ function dokey {
     php artisan key:generate --ansi
 }
 
+## Handles any outstanding migrations
 function domigrate {
     php artisan migrate
 }
