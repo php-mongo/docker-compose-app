@@ -56,8 +56,8 @@
 
 <template>
     <div ref="pmaTopPanel" class="pma-top-panel">
-        <top @collapseNav="collapseNav($event)" @clearError="clearError" v-bind:error="error" v-bind:user="user"></top>
-        <top-nav v-bind:collapsed="collapsed" v-bind:user="user"></top-nav>
+        <top @collapseNav="collapseNav($event)" @clearError="clearError" v-bind:error="error" v-bind:user="getUser"></top>
+        <top-nav v-bind:collapsed="collapsed" v-bind:user="getUser"></top-nav>
     </div>
 </template>
 <script>
@@ -98,6 +98,13 @@
              */
             watchError() {
                 return this.$store.getters.getAppErrorData
+            },
+
+            /*
+            *   Retrieves the User from Vuex
+            */
+            getUser() {
+               return this.$store.getters.getUser
             },
         },
 
@@ -163,9 +170,9 @@
             /*
             *   Retrieves the User from Vuex
             */
-            getUser() {
+            /*getUser() {
                 this.user = this.$store.getters.getUser
-            },
+            },*/
 
             handleGetUser() {
                 if (!this.user.id && this.retries < this.limit) {
@@ -203,9 +210,9 @@
          */
         mounted() {
             // we pass the user to child components as props
-            setTimeout(() => {
-                this.getUser();
-            }, 250)
+            //setTimeout(() => {
+                //this.getUser();
+            //}, 250)
 
             EventBus.$on('collapse-left-nav', () => {
                 this.watchLeftNav()
@@ -214,14 +221,6 @@
             EventBus.$on('expand-left-nav', () => {
                 this.watchLeftNav()
             });
-
-           /* setTimeout(() => {
-                if (!this.user.id) {
-                    this.getUser()
-                }
-                this.setPermissionError()
-            }, 500)
-*/
         },
 
         watch: {

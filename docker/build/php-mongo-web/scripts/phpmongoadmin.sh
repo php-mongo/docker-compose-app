@@ -14,6 +14,7 @@ function dopassport {
     php artisan passport:client --personal
 }
 
+## Run all functions in sequence
 function dosetup {
     dokey
     domigrate
