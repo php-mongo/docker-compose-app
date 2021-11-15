@@ -209,11 +209,6 @@
          * get on ur bikes and ride !!
          */
         mounted() {
-            // we pass the user to child components as props
-            //setTimeout(() => {
-                //this.getUser();
-            //}, 250)
-
             EventBus.$on('collapse-left-nav', () => {
                 this.watchLeftNav()
             });

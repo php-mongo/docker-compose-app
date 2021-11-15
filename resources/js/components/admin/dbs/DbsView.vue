@@ -188,7 +188,6 @@
             */
             getUser() {
                 this.index = 0;
-                this.user = this.$store.getters.getUser;
                 this.handleGetUser();
             },
 
@@ -201,7 +200,10 @@
                     }, 100)
                 }
                 if (status === 2) {
-                    this.checkUserType();
+                    this.user = this.$store.getters.getUser;
+                    setTimeout(() => {
+                        this.checkUserType();
+                    }, 50)
                 }
                 if (status === 3) {
                     // user not authorized or other error

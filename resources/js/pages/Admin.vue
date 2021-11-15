@@ -103,7 +103,8 @@
                     }, 100)
                 }
                 if (status === 2) {
-                    this.$store.dispatch( 'loadDatabases' );
+                    console.log("user loaded - try to fetch databases");
+                    this.$store.dispatch( 'loadDatabases' )
                 }
                 if (status === 3) {
                     // user not authorized or other error
