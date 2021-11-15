@@ -79,7 +79,8 @@ export const database = {
         */
         loadDatabases( { dispatch, commit, getters } ) {
             if (getters.getCanUserReadDatabase === false)  {
-                return;
+                console.log("User cannot read databases not ready");
+                return
             }
 
             commit( 'setDatabasesLoadStatus', 1 );

@@ -98,6 +98,12 @@ Opening http://localhost with no path should load the default Html page.
 Opening the browser with http://localhost/phpmongoadmin should initialise the PhpMongoAdmin setup
 Read the [setup guide](https://phpmongoadmin.com/support/documentation/setup) in our docs for further guidance
 
-### Things to be aware of
+### Things to be aware of and known issues
 
 1) If you have successfully created the 'Control User' and logged in to the application, but at some later time you decide to rebuild the docker from scratch you will need to clear the 'user`s token' from 'Local Storage' in your browser.
+2) If this repository in cloned to a Window box, when you run 'pmasetup win-build' and the last three lines shown after the build completes have error message like:  
+   a) /etc/profile.d/phpmongoadmin.sh: line 3: syntax error near unexpected token `$'{\r'  
+   b) this is due to Window rewriting the line endings - to fix do the following  
+   c) Using Notepadd++ open the local version of the file: docker/build/php-mongo-web/scripts/phpmongoadmin.sh  
+   d) Click > Edit > EOL Conversion > then select > Unix (LF) and save the file  
+   e) Run: 'pmasetup win-build' again - the 3 error message lines should not appear after build completion   
