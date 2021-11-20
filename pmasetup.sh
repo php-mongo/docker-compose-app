@@ -85,6 +85,7 @@ pmasetup() {
 
     build)
         touch database/sqlite/database.sqlite
+        touch storage/logs/laravel.log
 
         do-build
 
