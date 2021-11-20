@@ -1,5 +1,5 @@
 # Dockerfile
-FROM php:7.3.28-apache-stretch
+FROM php:7.4.26-apache-buster
 
 MAINTAINER Gilbert Rehling <gilbert@phpmongoadmin.com>
 
@@ -7,13 +7,6 @@ ENV PHPMONGOADMIN_STAND_ALONE=1
 
 ARG WITH_XDEBUG=false
 ARG WITH_XDEBUG_PROFILE=false
-
-#&& docker-php-ext-configure gd \
-#        --with-gd \
-#        --with-freetype-dir=/usr/include/ \
-#        --with-png-dir=/usr/include/ \
-#        --with-jpeg-dir=/usr/include/ \
-#gd \
 
 # Basic system requirements
 RUN apt-get update -y \
@@ -114,6 +107,7 @@ RUN docker-php-ext-install -j$(nproc) \
     calendar \
     ctype \
     exif \
+    gd \
     fileinfo \
     iconv \
     intl \
@@ -142,12 +136,12 @@ RUN alias php_xdebug="php -d $XDEBUG_EXT vendor/bin/phpunit"
 
 # Install composer - taken from composer dockerfile
 ENV COMPOSER_ALLOW_SUPERUSER 1
-#ENV COMPOSER_HOME /tmp
-#COPY --from=composer:1.10 /usr/bin/composer /usr/bin/composer
+ENV COMPOSER_HOME /tmp
+COPY --from=composer:1.10 /usr/bin/composer /usr/bin/composer
 # Install composer and put binary into $PATH
-RUN curl -sS https://getcomposer.org/installer | php \
-	&& mv composer.phar /usr/local/bin/ \
-	&& ln -s /usr/local/bin/composer.phar /usr/local/bin/composer
+#RUN curl -sS https://getcomposer.org/installer | php \
+#	&& mv composer.phar /usr/local/bin/ \
+#	&& ln -s /usr/local/bin/composer.phar /usr/local/bin/composer
 
 # Copy the php.ini file
 COPY config/php.ini-development /usr/local/etc/php.ini
@@ -170,7 +164,9 @@ COPY ./scripts/*.sh /tmp/scripts/
 ENV BASH_ENV /etc/profile
 
 # Add bash helpers and extras. A bit of magic to glue everything together
+# Add your favourite aliases etc...
 RUN touch /tmp/scripts/profile.sh \
+    && echo "alias lsa='ls -la'" >> /tmp/scripts/profile.sh \
     && chmod +x /tmp/scripts/* \
     && cp /tmp/scripts/profile.sh /etc/profile.d/ \
     && cp /tmp/scripts/phpmongoadmin.sh /etc/profile.d/ \
