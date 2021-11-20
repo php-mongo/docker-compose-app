@@ -15,6 +15,8 @@ pmasetup() {
 
     echo "${COLOR_BLUE}Working DIR : $PMA_DIR"
     echo "${COLOR_BLUE}Env source : $SOURCE"
+    echo "${COLOR_BLUE}Web container name : $DOCKER_WEB"
+    echo "${COLOR_BLUE}MongoDB container name : $DOCKER_DB"
 
     COMMAND=$1
 
@@ -36,6 +38,14 @@ pmasetup() {
         cd "$PMA_DIR" || exit
     }
 
+    do-down () {
+        cd "$DOCKER_DIR" || return 1
+
+        docker-compose down -v
+
+        cd "$PMA_DIR" || exit
+    }
+
     do-composer () {
         docker exec $DOCKER_WEB /bin/bash -c "cd /usr/share/phpMongoAdmin/ && composer install"
     }
@@ -44,18 +54,30 @@ pmasetup() {
         winpty docker exec $DOCKER_WEB bash -c "cd /usr/share/phpMongoAdmin/ && composer install"
     }
 
+    do-setup () {
+        docker exec $DOCKER_WEB /bin/bash -c "cd /usr/share/phpMongoAdmin/ && dosetup"
+    }
+
+    win-do-setup () {
+        winpty docker exec $DOCKER_WEB bash -c "cd /usr/share/phpMongoAdmin/ && dosetup"
+    }
+
     do-db () {
         docker exec $DOCKER_DB /bin/bash -c "cd /docker-entrypoint-initdb/ && mongo -u ${MONGO_INITDB_ROOT_USERNAME} -p ${MONGO_INITDB_ROOT_PASSWORD} << mongo-init.js"
     }
 
     win-do-db() {
-        pty docker exec $DOCKER_DB bash -c "cd /docker-entrypoint-initdb/ && composer install"
+        winpty docker exec $DOCKER_DB bash -c "cd /docker-entrypoint-initdb/"
     }
 
     # handle the requested function
     case $COMMAND in
     up)
         do-up
+        ;;
+
+    down)
+        do-down
         ;;
 
     build)
@@ -71,6 +93,8 @@ pmasetup() {
             echo "${COLOR_RED} env file missing - copying example"
             cp docker/build/php-mongo-web/config/env.example .env
         fi
+
+        do-setup
         ;;
 
     win-build)
@@ -86,6 +110,8 @@ pmasetup() {
             echo "${COLOR_RED} env file missing - copying example"
             cp docker/build/php-mongo-web/config/env.example .env
         fi
+
+        win-do-setup
         ;;
 
     composer)
@@ -114,10 +140,10 @@ pmasetup() {
             echo "-- ${COLOR_BLUE}$1${COLOR_NONE}: $2"
         }
         HELP="Available actions:
-        $(fmtHelp "build" "Build the docker images and start the container")
         $(fmtHelp "up" "Start the docker containers")
-        $(fmtHelp "composer" "Run composer on unix based systems")
+        $(fmtHelp "build" "Build the docker images and start the container")
         $(fmtHelp "win-build" "Run docker build on Windows in Git Bash etcetera")
+        $(fmtHelp "composer" "Run composer on unix based systems")
         $(fmtHelp "win-composer" "Run composer on Windows in Git Bash etcetera")"
 
         echo "${COLOR_NONE}$HELP"
