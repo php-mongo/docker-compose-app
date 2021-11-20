@@ -31,6 +31,7 @@ services:
         volumes:
             - ../:/usr/share/phpMongoAdmin:delegated
             - ./profile:/tmp/xdebug:rw
+            - ../var/www:/var/www:delagated
         environment:
             - XDEBUG_CONFIG
         ports:
