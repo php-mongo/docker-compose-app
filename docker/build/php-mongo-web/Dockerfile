@@ -158,7 +158,7 @@ RUN ln -s /etc/apache2/conf-available/phpMongoAdmin.conf /etc/apache2/conf-enabl
 WORKDIR /usr/share/phpMongoAdmin
 
 # Give the www-data user ownership of the web volume
-RUN chown -R /var/www
+RUN chown -R www-data:www-data /var/www
 
 # Copy any user scripts to the container
 RUN mkdir -p /tmp/scripts
