@@ -152,10 +152,13 @@ COPY config/phpMongoAdmin.conf /etc/apache2/conf-available/
 RUN ln -s /etc/apache2/conf-available/phpMongoAdmin.conf /etc/apache2/conf-enabled/phpMongoAdmin.conf
 
 # Copy default index file for apache directory
-COPY config/index.html /var/www/html/index.html
+# COPY ../../../var/www/html/index.html /var/www/html/index.html
 
 # Set the working directory to make it easier to enter
 WORKDIR /usr/share/phpMongoAdmin
+
+# Give the www-data user ownership of the web volume
+RUN chown -R /var/www
 
 # Copy any user scripts to the container
 RUN mkdir -p /tmp/scripts

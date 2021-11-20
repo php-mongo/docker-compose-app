@@ -55,17 +55,20 @@ pmasetup() {
     }
 
     do-setup () {
-        docker exec $DOCKER_WEB /bin/bash -c "cd /usr/share/phpMongoAdmin/ && dosetup"
+        # Linux presented some issues with file permissions
+        docker exec $DOCKER_WEB /bin/bash -c "cd /usr/share/phpMongoAdmin/ && dosetup && chown -R www-data:www-data /usr/share/phpMongoAdmin"
     }
 
     win-do-setup () {
         winpty docker exec $DOCKER_WEB bash -c "cd /usr/share/phpMongoAdmin/ && dosetup"
     }
 
+    # not used yet
     do-db () {
         docker exec $DOCKER_DB /bin/bash -c "cd /docker-entrypoint-initdb/ && mongo -u ${MONGO_INITDB_ROOT_USERNAME} -p ${MONGO_INITDB_ROOT_PASSWORD} << mongo-init.js"
     }
 
+    # not used yet
     win-do-db() {
         winpty docker exec $DOCKER_DB bash -c "cd /docker-entrypoint-initdb/"
     }

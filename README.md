@@ -15,6 +15,14 @@ This build of PhpMongoAdmin is docker-compose all-inclusive build environment.
 You could use this build if you wanted to try out PhpMongoAdmin outside your existing development environments or if you don't have a web server handy.  
 This build includes MongoDB and allows you to test the application anywhere, including a Windows box with <b>Docker Desktop</b> installed.
 
+## Requires
+- Recent version of Docker
+    - tested successfully with version: 20.10.11 (docker-ce)
+    - issue occurred using an earlier version (docker)
+- Recent version of docker-compose
+    - tested successfully with version: 1.29.2
+    - issue occurred using an earlier version along with an older docker
+
 ## Getting started
 
 Follow these step to get up and running with minimal fuss.
