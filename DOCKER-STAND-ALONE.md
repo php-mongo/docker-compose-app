@@ -112,7 +112,8 @@ Read the [setup guide](https://phpmongoadmin.com/support/documentation/setup) in
 
 1) If your on Linux and 'localhost' does not load, check your SELinux settings
 2) If you have previously created the 'Control User' and logged in to the application, then at some later time you decide to rebuild docker from scratch you will need to clear the 'user`s token' from 'Local Storage' in your browser.
-3) If this repository in cloned to a Window box, when you run 'pmasetup win-build' and the last three lines shown after the build completes have error message like:  
+3) If you delete the .env file and run the build process again a new application key will be generated: at this closure any previously created users will NOT be able to access the MongoDb server due to their encrypted password no longer being available. The control-users password can be reset provided you can access the reset email. Alternatively, delete the database/sqlite/database.sqlite file and run a new setup process
+4) If this repository in cloned to a Window box, when you run 'pmasetup win-build' and the last three lines shown after the build completes have error message like:  
    a) /etc/profile.d/phpmongoadmin.sh: line 3: syntax error near unexpected token `$'{\r'  
    b) this is due to Window rewriting the line endings - to fix do the following  
    c) Using Notepadd++ open the local version of the file: docker/build/php-mongo-web/scripts/phpmongoadmin.sh  
