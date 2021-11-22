@@ -40,7 +40,6 @@ services:
 networks:
     database:
         driver: "bridge"
-volumes:
-    mongo:
+
 
 
