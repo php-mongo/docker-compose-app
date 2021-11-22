@@ -10,7 +10,7 @@ services:
         environment:
             - MONGODB_CONFIG
         volumes:
-            - ../storage/mongo:/var/lib/mongo
+            - ../storage/mongo:/data/db
             - ./build/php-mongo-db/phpmongoadmin-init.js:/docker-entrypoint-initdb/mongo-init.js:ro
             - ./build/php-mongo-web/config/mongod.conf:/etc/mongod.conf:rw
         ports:
