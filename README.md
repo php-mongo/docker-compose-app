@@ -112,8 +112,12 @@ Read the [setup guide](https://phpmongoadmin.com/support/documentation/setup) in
 
 1) If your on Linux and 'localhost' does not load, check your SELinux settings
 2) If you have previously created the 'Control User' and logged in to the application, then at some later time you decide to rebuild docker from scratch you will need to clear the 'user`s token' from 'Local Storage' in your browser.
-3) If you delete the .env file and run the build process again a new application key will be generated: at this closure any previously created users will NOT be able to access the MongoDb server due to their encrypted password no longer being available. The control-users password can be reset provided you can access the reset email. Alternatively, delete the database/sqlite/database.sqlite file and run a new setup process
-4) If this repository in cloned to a Window box, when you run 'pmasetup win-build' and the last three lines shown after the build completes have error message like:  
+3) If you deleted the .env file and ran the build process again a new application key will be generated; At this closure any previously created users will NOT be able to access the MongoDb server due to their encrypted password no longer being readable.  
+   a) The control-user password can be reset: follow the link from the login modal.  
+   b) If your application cannot deliver emails, you can access the reset email from the email log. All emailing is logged by default: this setting 'MAIL_LOG_CHANNEL=emails' can be disabled in the .env file.  
+   c) Alternatively, delete the database/sqlite/database.sqlite file and run a new setup process: all existing login users and server configurations will be removed
+4) If the application loads, and you see an error message relating to database connection or no database, or an error message that contains: "Failed to parse MongoDB URI: 'mongodb+srv'" then it's likely that the .env file setting: IS_DOCKER_AP= might be set to false. Make sure this setting is true for docker builds
+5) If this repository in cloned to a Window box, when you run 'pmasetup win-build' and the last three lines shown after the build completes have error message like:  
    a) /etc/profile.d/phpmongoadmin.sh: line 3: syntax error near unexpected token `$'{\r'  
    b) this is due to Window rewriting the line endings - to fix do the following  
    c) Using Notepadd++ open the local version of the file: docker/build/php-mongo-web/scripts/phpmongoadmin.sh  
