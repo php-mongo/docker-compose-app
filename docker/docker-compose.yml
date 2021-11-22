@@ -10,8 +10,8 @@ services:
         environment:
             - MONGODB_CONFIG
         volumes:
-            - mongo:/var/lib/mongo:delegated
-            - ./phpmongoadmin-init.js:/docker-entrypoint-initdb/mongo-init.js:ro
+            - ../storage/mongo:/var/lib/mongo
+            - ./build/php-mongo-db/phpmongoadmin-init.js:/docker-entrypoint-initdb/mongo-init.js:ro
             - ./build/php-mongo-web/config/mongod.conf:/etc/mongod.conf:rw
         ports:
             - "27017:27017"
@@ -40,7 +40,6 @@ services:
 networks:
     database:
         driver: "bridge"
-volumes:
-    mongo:
+
 
 
