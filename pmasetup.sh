@@ -63,6 +63,14 @@ pmasetup() {
         winpty docker exec $DOCKER_WEB bash -c "cd /usr/share/phpMongoAdmin/ && dosetup"
     }
 
+    do-queue() {
+        docker exec -it $DOCKER_WEB /bin/bash -c "cd /usr/share/phpMongoAdmin && php artisan queue:work"
+    }
+
+    win-do-queue() {
+        winpty docker exec -it $DOCKER_WEB bash -c "cd /usr/share/phpMongoAdmin && php artisan queue:work"
+    }
+
     # not used yet
     do-db () {
         docker exec $DOCKER_DB /bin/bash -c "cd /docker-entrypoint-initdb/ && mongo -u ${MONGO_INITDB_ROOT_USERNAME} -p ${MONGO_INITDB_ROOT_PASSWORD} << mongo-init.js"
@@ -77,6 +85,8 @@ pmasetup() {
     case $COMMAND in
     up)
         do-up
+        echo "${COLOR_RED} On Unix based systems to start the queue worker run: pmasetup queue"
+        echo "${COLOR_RED} On Windows systems to start the queue worker run: pmasetup win-queue"
         ;;
 
     down)
@@ -125,6 +135,7 @@ pmasetup() {
             echo "${COLOR_RED} env file missing - copying example"
             cp docker/build/php-mongo-web/config/env.example .env
         fi
+
         docker exec -it $DOCKER_WEB /bin/bash -c "cd /usr/share/phpMongoAdmin && composer $*"
         ;;
 
@@ -136,7 +147,16 @@ pmasetup() {
             winpty docker exec $DOCKER_WEB bash
             cp docker/build/php-mongo-web/config/env.example .env
         fi
+
         winpty docker exec -it $DOCKER_WEB bash -c "cd /usr/share/phpMongoAdmin && composer $*"
+        ;;
+
+    queue)
+        do-queue
+        ;;
+
+    win-queue)
+        win-do-queue
         ;;
 
     help)
@@ -145,10 +165,13 @@ pmasetup() {
         }
         HELP="Available actions:
         $(fmtHelp "up" "Start the docker containers")
-        $(fmtHelp "build" "Build the docker images and start the container")
-        $(fmtHelp "win-build" "Run docker build on Windows in Git Bash etcetera")
-        $(fmtHelp "composer" "Run composer on unix based systems")
-        $(fmtHelp "win-composer" "Run composer on Windows in Git Bash etcetera")"
+        $(fmtHelp "down" "Stop the docker containers")
+        $(fmtHelp "build" "Build the docker images and start the container on Unix based OS")
+        $(fmtHelp "win-build" "Run docker build on Windows with Git Bash etcetera")
+        $(fmtHelp "queue" "Start the queue worker on Unix bases OS")
+        $(fmtHelp "win-queue" "Start the queue worker on Windows with Git Bash etcetera")
+        $(fmtHelp "composer" "Run composer on Unix based OS")
+        $(fmtHelp "win-composer" "Run composer on Windows with Git Bash etcetera")"
 
         echo "${COLOR_NONE}$HELP"
         ;;
