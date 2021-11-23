@@ -13,7 +13,8 @@ This build of PhpMongoAdmin is docker-compose all-inclusive build environment.
 ### This is not a docker image build: check our [docker](https://github.com/php-mongo/docker) image repository for that one!
 
 You could use this build if you wanted to try out PhpMongoAdmin outside your existing development environments or if you don't have a web server handy.  
-This build includes MongoDB and allows you to test the application anywhere, including a Windows box with <b>Docker Desktop</b> installed.
+This build includes a MongoDB (image & container) and allows you to test the application anywhere, including a Windows box with <b>Docker Desktop</b> installed.  
+MongoDB's data will be persisted inside: /storage/mongodb/
 
 ## Requires
 - Recent version of Docker
@@ -23,36 +24,43 @@ This build includes MongoDB and allows you to test the application anywhere, inc
   - tested successfully with version: 1.29.2
   - issue occurred using an earlier version along with an older docker
 
+## How it works
+The application will be installed into the Host container at /usr/share/phpMongoAdmin  
+An apache config will be copied to /etc/apache2/conf-available/phpMongoAdmin.conf and will be linked to /etc/apache2/conf-enabled/phpMongoAdmin.conf  
+This configuration will make the application available at http://localhost/phpmongoadmin  
+The URL http://localhost/phpMongoAdmin will redirect to http://localhost/phpmongoadmin  
+The default web page (index.html) is linked as a volume from a directory within the application: /var/www/html  
+You can modify the mapping of that volume in the /docker/docker-compose.yml on line: 34
+
 ## Getting started
 
 Follow these step to get up and running with minimal fuss.
 - Download or clone this repository to your target directory
 - cd (change directory) to the root directory of the application
 - For setup on Windows, right-click and select 'Git Bash Here' (Git for Windows required)
-- List the directory contents to confirm that you can see: ls -la
+- List (ls-la) the directory contents to confirm that you can see: 
   - a folder name 'docker', a file named 'pmasetup.sh'
 
 #### At this point you should prepare the environment files
-
-Follow these steps to set up the environment
-- Copy the file:
-  - docker/build/php-mongo-web/config.env.example to .env
-  - The .env file must be in the root directory of the application
-  - This file is required for Laravel and is designed to work out of the box
+The application will install 'as-is' but its highly recommended that you at least update the password.  
+Follow these steps to set up the environment:
+- Open the file docker/build/php-mongo-web/config.env.example with an editor such as Notepadd++
+  - This file will be copied to the root directory of the application as .env by the setup script
+  - The .env file required for Laravel and is populated with working default settings
   - Advanced users can use adjust these settings to suit their needs
   - !! Do not populate the APP_KEY - it will be auto generated in later steps !!
-  - Read [the docs](https://phpmongoadmin.com/support/documentation) for detailed instructions on handling these settings
+  - Read [the docs](https://phpmongoadmin.com/support/documentation) for detailed information on handling these settings
 - Open the file: 'docker/docker.env' with an editor such as Notepadd++
 - For enhanced security you should update the 'MONGO_USER' & 'MONGO_USER_PWD' values.
-  - Make a note of these values: you can use them during the application setup for the 'Control User'
+  - Make a note of these values: you will use them during the application setup for the 'Control User'
   - 'save & close' the configuration files
 
 #### You can view the detected configuration using this command
 - docker-composer config
 
-#### Now you are ready to execute the final setup commands
+#### Now you are ready to execute the setup commands
 
-Type these commands at the prompt in the application root:
+Type these commands at a prompt in the application root:
 
 - source ./pmasetup.sh
 - On Windows:
@@ -65,31 +73,38 @@ Type these commands at the prompt in the application root:
   - copy configuration files into place
   - run 'composer install'
   - enter the container shell and run the 'dosetup' command
+  - start the queue worker
 - Once the build process has completed the last few line should indicate: 'Personal access client created successfully' along with a Client ID and secret.
+- The prompt will no longer be available as the terminal is locked by the Laravel worker task.
+- Pressing Ctrl + z should unlock the terminal, and will stop the listener, however there won't be any notifications sent or logged.
+- You can use MailHog to receive emails or monitor the /storage/logs/email.log
 
-####If the build process was not able to access the container shell, use the following steps to complete the process manually
--To access the container shell:
+####If the build process was unable to access the host shell, the following steps can complete the setup process manually
+-To access the Host container shell:
   - On Windows:
     - winpty docker exec -it docker_php-mongo-web_1 bash
   - On Unix based:
     - docker exec -it docker_php-mongo-web_1 /bin/bash
   - You should now have a cli shell active on the container, run the following commands.
-  - ! If the above commands fail to open the container`s BASH, you might need to access via Docker Desktop or try a cup of tea !
+  - ! If the above commands fail to open the container`s BASH, you can try to gain access via Docker Desktop or try a cup of tea !
   - Once you have switched to the container shell, run the following single command:
     - dosetup
-    - ! This should run a sequence of commands and display the results to the terminal !
+    - ! This command should run a sequence of commands and display the results to the terminal !
     - ! If this command cannot run or is not found, run the sequence of commands below !
   - ! Do NOT run these again if the 'dosetup' command was successful !
-  - Run to generate the system key:
+  - Make sure the current path is: /usr/share/phpMongoAdmin
+  - This generates the system key:
     - php artisan key:generate --ansi
-  - Run to create the default migrations:
+  - This runs the default migrations:
     - php artisan migrate
-  - Install the Passport encryption keys
+  - Installs the Passport encryption keys
     - php artisan passport:install
-  - Deploy passport - generates key required to generate tokens
+  - Deploys passport - generates key required to generate tokens
     - php artisan passport:keys
-  - Create the passport 'personal key'
+  - Creates the passport 'personal key'
     - php artisan passport:client --personal
+  - Starts the queue schedule worker
+  - php artisan queue:work
 
 ####!! If you were unable to open the container shell earlier, but have now accessed it another way, you may not have the 'dosetup' command in your PATH
   - You can run the command like this:
