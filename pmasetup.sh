@@ -56,7 +56,7 @@ pmasetup() {
 
     do-setup () {
         # Linux presented some issues with file permissions
-        docker exec $DOCKER_WEB /bin/bash -c "cd /usr/share/phpMongoAdmin/ && dosetup && chown -R www-data:www-data /usr/share/phpMongoAdmin"
+        docker exec $DOCKER_WEB /bin/bash -c "cd /usr/share/phpMongoAdmin/ && chown -R www-data:www-data /usr/share/phpMongoAdmin && dosetup"
     }
 
     win-do-setup () {
