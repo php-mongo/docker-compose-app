@@ -3,7 +3,7 @@
 PhpMongoAdmin is a Web-based MongoDb management console, written in PHP and leveraging great tools like Laravel and Vue.
 The familiar interface allows you to manage many aspects of your MongoDB installation:
 
-PhpMongoAdmin is source is located here: [gtihub.com/php-mongo/admin](https://github.com/php-mongo/admin).  
+PhpMongoAdmin source code is located here: [gtihub.com/php-mongo/admin](https://github.com/php-mongo/admin).  
 Read more here: [PhpMongoAdmin ReadMe](PHPMONGOADMIN.MD)
 
 ## Docker-Compose-Full Stand-Alone Build
@@ -13,7 +13,7 @@ This build of PhpMongoAdmin is docker-compose all-inclusive build environment.
 ### This is not a docker image build: check our [docker](https://github.com/php-mongo/docker) image repository for that one!
 
 You could use this build if you wanted to try out PhpMongoAdmin outside your existing development environments or if you don't have a web server handy.  
-This build includes a MongoDB (image & container) and allows you to test the application anywhere, including a Windows box with <b>Docker Desktop</b> installed.  
+This build includes a <b>MongoDB</b> (image & container) and allows you to test the application anywhere, including a Windows box with <b>Docker Desktop</b> installed.  
 MongoDB's data will be persisted inside: /storage/mongodb/
 
 ## Requires
@@ -34,7 +34,7 @@ You can modify the mapping of that volume in the /docker/docker-compose.yml on l
 
 ## Getting started
 
-Follow these step to get up and running with minimal fuss.
+Follow these steps to get up and running with minimal fuss.
 - Download or clone this repository to your target directory
 - cd (change directory) to the root directory of the application
 - For setup on Windows, right-click and select 'Git Bash Here' (Git for Windows required)
@@ -42,7 +42,7 @@ Follow these step to get up and running with minimal fuss.
   - a folder name 'docker', a file named 'pmasetup.sh'
 
 #### At this point you should prepare the environment files
-The application will install 'as-is' but its highly recommended that you at least update the password.  
+The application will install 'as-is' but its highly recommended that you at least update the default passwords.  
 Follow these steps to set up the environment:
 - Open the file docker/build/php-mongo-web/config.env.example with an editor such as Notepadd++
   - This file will be copied to the root directory of the application as .env by the setup script
@@ -62,7 +62,7 @@ Follow these steps to set up the environment:
 
 Type these commands at a prompt in the application root:
 
-- source ./pmasetup.sh
+- source docker/pmasetup.sh
 - On Windows:
   - pmasetup win-build
   - win-build uses 'winpty' as a command prefix (provide by Git for Windows)
@@ -72,12 +72,12 @@ Type these commands at a prompt in the application root:
   - build the docker containers
   - copy configuration files into place
   - run 'composer install'
-  - enter the container shell and run the 'dosetup' command
-  - start the queue worker
+  - enters the container shell and runs the 'dosetup' command
+  - starts the queue worker
 - Once the build process has completed the last few line should indicate: 'Personal access client created successfully' along with a Client ID and secret.
 - The prompt will no longer be available as the terminal is locked by the Laravel worker task.
 - Pressing Ctrl + z should unlock the terminal, and will stop the listener, however there won't be any notifications sent or logged.
-- You can use MailHog to receive emails or monitor the /storage/logs/email.log
+- You can use MailHog to receive emails or monitor the email logs: /storage/logs/email.log
 
 ####If the build process was unable to access the host shell, the following steps can complete the setup process manually
 -To access the Host container shell:
