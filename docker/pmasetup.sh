@@ -76,7 +76,7 @@ pmasetup() {
         docker exec $DOCKER_WEB /bin/bash -c "cd /usr/share/phpMongoAdmin/ && chown -R www-data:www-data /usr/share/phpMongoAdmin && dosetup"
     }
 
-    win-do-setup () {
+    do-win-setup () {
         winpty docker exec $DOCKER_WEB bash -c "cd /usr/share/phpMongoAdmin/ && dosetup"
     }
 
@@ -84,7 +84,7 @@ pmasetup() {
         docker exec -it $DOCKER_WEB /bin/bash -c "cd /usr/share/phpMongoAdmin && php artisan queue:work"
     }
 
-    win-do-queue() {
+    do-win-queue() {
         winpty docker exec -it $DOCKER_WEB bash -c "cd /usr/share/phpMongoAdmin && php artisan queue:work"
     }
 
@@ -142,7 +142,7 @@ pmasetup() {
             cp docker/build/php-mongo-web/config/env.example .env
         fi
 
-        win-do-setup
+        do-win-setup
         ;;
 
     composer)
@@ -173,7 +173,7 @@ pmasetup() {
         ;;
 
     win-queue)
-        win-do-queue
+        do-win-queue
         ;;
 
     help)

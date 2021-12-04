@@ -1,0 +1,45 @@
+version: "3.5"
+services:
+    php-mongo-db:
+        env_file:
+          - .docker.env
+        image: mongo:4.4.3
+        networks:
+            - database
+        restart: always
+        environment:
+            - MONGODB_CONFIG
+        volumes:
+            - ../storage/mongo:/data/db
+            - ./build/php-mongo-db/phpmongoadmin-init.js:/docker-entrypoint-initdb/mongo-init.js:ro
+            - ./build/php-mongo-web/config/mongod.conf:/etc/mongod.conf:rw
+        ports:
+            - "27017:27017"
+
+    php-mongo-web:
+        env_file:
+          - .docker.env
+        build:
+            context: build/php-mongo-web
+            args:
+                - WITH_XDEBUG=false
+                - WITH_XDEBUG_PROFILE=false
+        networks:
+            - database
+        depends_on:
+            - php-mongo-db
+        volumes:
+            - ../:/var/hosting/sites/phpmongoadmin:delegated
+            - ./profile:/tmp/xdebug:rw
+            - ../var/www:/var/www:rw
+        environment:
+            - XDEBUG_CONFIG
+        ports:
+            - "80:80"
+
+networks:
+    database:
+        driver: "bridge"
+
+
+
