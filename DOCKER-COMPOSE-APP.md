@@ -6,15 +6,15 @@ The familiar interface allows you to manage many aspects of your MongoDB install
 PhpMongoAdmin source code is located here: [gtihub.com/php-mongo/admin](https://github.com/php-mongo/admin).  
 Read more here: [PhpMongoAdmin ReadMe](PHPMONGOADMIN.MD)
 
-## Docker-Compose-Full Stand-Alone Build
+## Docker-Compose-App Stand-Alone Build
 
-This build of PhpMongoAdmin is docker-compose all-inclusive build environment.
+This build of PhpMongoAdmin is docker-compose app and apache build environment.
 
 ### This is not a docker image build: check our [docker](https://github.com/php-mongo/docker) image repository for that one!
 
 You could use this build if you wanted to try out PhpMongoAdmin outside your existing development environments or if you don't have a web server handy.  
-This build includes a <b>MongoDB</b> (image & container) and allows you to test the application anywhere, including a Windows box with <b>Docker Desktop</b> installed.  
-MongoDB's data will be persisted inside: /storage/mongodb/
+This build does NOT include <b>MongoDB</b>, you'll need access to a local or remote MongoDb and setup connection using the Server manager. This docker-composer can run on Linux or on a Windows box with <b>Docker Desktop</b> installed.  
+If you want to use this application with a MongoDB data image included use this repo: [docker-compose-full](https://githug.com/phpo-mongo/dockr-compose-full)
 
 ## Requires
 - Recent version of Docker
@@ -24,13 +24,25 @@ MongoDB's data will be persisted inside: /storage/mongodb/
   - tested successfully with version: 1.29.2
   - issue occurred using an earlier version along with an older docker
 
+## Quick Start
+Run this command from an empty directory to fetch the repository and begin the setup process:  
+$ wget https://phpmongoadmin.com/install/docker-app.sh -O - | bash
+
 ## How it works
 The application will be installed into the Host container at /usr/share/phpMongoAdmin  
 An apache config will be copied to /etc/apache2/conf-available/phpMongoAdmin.conf and will be linked to /etc/apache2/conf-enabled/phpMongoAdmin.conf  
 This configuration will make the application available at http://localhost/phpmongoadmin  
 The URL http://localhost/phpMongoAdmin will redirect to http://localhost/phpmongoadmin  
 The default web page (index.html) is linked as a volume from a directory within the application: /var/www/html  
-You can modify the mapping of that volume in the /docker/docker-compose.yml on line: 34
+You can modify the mapping of that volume in the /docker/docker-compose.yml on line: 34  
+If you prefer to use a VirtualHost type of installation use these files, interchange the names:
+- docker/docker-compose-vhost.yml >> docker/docker-compose.yml
+- docker/build/Dockerfile_vhost >> docker/build/Dockerfile
+- update the: ServerName value in this file:
+  - docker/build/php-mongo-web/config/vhost_phpMongoAdmin.conf
+- then run the setup process detailed below
+- Note: using the VirtualHost setup will change the location of the application codebase to:
+  - /var/hosting/phpmongoadmin
 
 ## Getting started
 
@@ -93,6 +105,8 @@ Type these commands at a prompt in the application root:
     - ! If this command cannot run or is not found, run the sequence of commands below !
   - ! Do NOT run these again if the 'dosetup' command was successful !
   - Make sure the current path is: /usr/share/phpMongoAdmin
+  - Note: for a VirtualHost set-up the current path is:
+    - /var/hosting/phpmongioadmin
   - This generates the system key:
     - php artisan key:generate --ansi
   - This runs the default migrations:
@@ -111,6 +125,7 @@ Type these commands at a prompt in the application root:
   - !! There is no need to do this if the keys and oauth client have already been created !!
     - First ensure you are in the application root:
       - pwd ( should display /usr/share/phpMongoAdmin)
+        - or for VirtualHost: /var/hosting/phpmongoadmin
       - try: dosetup
       - if you get something like: /bin/sh: 21: dosetup: not found
       - try this:
