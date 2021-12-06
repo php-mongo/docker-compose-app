@@ -1,4 +1,4 @@
-## About PhpMongoAdmin
+## About PhpMongoAdmin (PMDbA)
 
 PhpMongoAdmin is a Web-based MongoDb management console, written in PHP and leveraging great tools like Laravel and Vue.
 The familiar interface allows you to manage many aspects of your MongoDB installation:
@@ -6,11 +6,11 @@ The familiar interface allows you to manage many aspects of your MongoDB install
 PhpMongoAdmin source code is located here: [gtihub.com/php-mongo/admin](https://github.com/php-mongo/admin).  
 Read more here: [PhpMongoAdmin ReadMe](PHPMONGOADMIN.MD)
 
-## Docker-Compose-App Stand-Alone Build
+## Docker-Compose-App: Stand-Alone Build
 
-This build of PhpMongoAdmin is docker-compose app and apache build environment.
+This docker-compose repository of PhpMongoAdmin builds an apache2 environment only and installs PMDbA.
 
-### This is not a docker image build: check our [docker](https://github.com/php-mongo/docker) image repository for that one!
+### This is not a docker image build: check our [docker](https://github.com/php-mongo/docker) image repository! (coming soon)
 
 You could use this build if you wanted to try out PhpMongoAdmin outside your existing development environments or if you don't have a web server handy.  
 This build does NOT include <b>MongoDB</b>, you'll need access to a local or remote MongoDb and setup connection using the Server manager. This docker-composer can run on Linux or on a Windows box with <b>Docker Desktop</b> installed.  
