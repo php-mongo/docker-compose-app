@@ -28,7 +28,8 @@ If you want to use this application with a MongoDB data image included use this 
 
 ## Quick Start
 Run this command from an empty directory to fetch the repository and begin the setup process:  
-$ wget https://phpmongoadmin.com/install/docker-app.sh -O - | bash
+$ wget https://phpmongoadmin.com/install/docker-app.sh -O - | bash  
+For Windows * you can download & install 'wget' from here: [gnuwin32](http://gnuwin32.sourceforge.net/packages/wget.htm)
 
 ## How it works
 The application will be installed into the Host container at /usr/share/phpMongoAdmin  
@@ -155,3 +156,9 @@ Read the [setup guide](https://phpmongoadmin.com/support/documentation/setup) in
    c) Using Notepadd++ open the local version of the file: docker/build/php-mongo-web/scripts/phpmongoadmin.sh  
    d) Click > Edit > EOL Conversion > then select > Unix (LF) and save the file  
    e) Run: 'pmasetup win-build' again - the 3 error message lines should not appear after build completion   
+
+## Disclaimer
+Please be aware of the following:
+- PhpMongoAdmin and its parent entities PhpMongoTools and MFMAW do not by any means endorse, or warrant, the usability of any software product that we may suggest for use or as a requirement during any procedure to install, implement or build our application.
+- We do also provide a labour-intensive approach for manual installation that requires some command line skills but nonetheless still requires the use of some 3rd party software.
+- Regardless of the installation method you choose the use of external applications is unavoidable especially in regard to a web server environment choice and the inevitable installation of MongoDB.
