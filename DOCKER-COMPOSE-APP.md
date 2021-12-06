@@ -17,12 +17,14 @@ This build does NOT include <b>MongoDB</b>, you'll need access to a local or rem
 If you want to use this application with a MongoDB data image included use this repo: [docker-compose-full](https://githug.com/phpo-mongo/dockr-compose-full)
 
 ## Requires
+- Git or Git bash
 - Recent version of Docker
   - tested successfully with version: 20.10.11 (docker-ce)
   - issue occurred using an earlier version (docker)
 - Recent version of docker-compose
   - tested successfully with version: 1.29.2
   - issue occurred using an earlier version along with an older docker
+- On Windows * installing Docker Desktop should provide the required environment
 
 ## Quick Start
 Run this command from an empty directory to fetch the repository and begin the setup process:  
