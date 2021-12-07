@@ -55,6 +55,9 @@ Follow these steps to get up and running with minimal fuss.
 - For setup on Windows, right-click and select 'Git Bash Here' (Git for Windows required)
 - List (ls-la) the directory contents to confirm that you can see: 
   - a folder name 'docker', a file named 'pmasetup.sh'
+- On Windows:
+  - cat -v /docker/build/php-mongo-web/scripts/phpmongoadmin.sh
+  - If you see: ^M as line endings, use the fix listed in the last section: 5) before continuing
 
 #### At this point you should prepare the environment files
 The application will install 'as-is' but its highly recommended that you at least update the default passwords.  
