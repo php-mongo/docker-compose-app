@@ -72,12 +72,35 @@ pmasetup() {
     }
 
     do-setup () {
-        # Linux presented some issues with file permissions
-        docker exec $DOCKER_WEB /bin/bash -c "dosetup"
+        echo "Do you want to generate a new Encryption key? Access to existing encrypted data will be lost!"
+        select encrypt in Yes No;
+        do
+          if [ "$encrypt" == "Yes" ]; then
+             docker exec $DOCKER_WEB /bin/bash -c "dosetup encrypt"
+            break;
+          fi;
+          if [ "$encrypt" == "No" ]; then
+            echo "Preserving existing key..."
+            docker exec $DOCKER_WEB /bin/bash -c "dosetup"
+            break;
+          fi;
+        done;
     }
 
     do-win-setup () {
-        winpty docker exec $DOCKER_WEB bash -c "dosetup"
+        echo "Do you want to generate a new Encryption key? Access to existing encrypted data will be lost!"
+        select encrypt in Yes No;
+        do
+          if [ "$encrypt" == "Yes" ]; then
+            winpty docker exec $DOCKER_WEB bash -c "dosetup encrypt"
+            break;
+          fi;
+          if [ "$encrypt" == "No" ]; then
+            echo "Preserving existing key..."
+            winpty docker exec $DOCKER_WEB bash -c "dosetup"
+            break;
+          fi;
+        done;
     }
 
     do-queue() {
@@ -119,7 +142,7 @@ pmasetup() {
         do-composer
 
         # copy env
-        docker exec $DOCKER_WEB bash
+        #docker exec $DOCKER_WEB bash
         if [ ! -e .env ]; then
             echo "${COLOR_RED} env file missing - copying example"
             cp docker/build/php-mongo-web/config/env.example .env
@@ -136,7 +159,7 @@ pmasetup() {
         do-win-composer
 
         # copy env
-        winpty docker exec $DOCKER_WEB bash
+        #winpty docker exec $DOCKER_WEB bash
         if [ ! -e .env ]; then
             echo "${COLOR_RED} env file missing - copying example"
             cp docker/build/php-mongo-web/config/env.example .env
@@ -153,7 +176,7 @@ pmasetup() {
             cp docker/build/php-mongo-web/config/env.example .env
         fi
 
-        docker exec -it $DOCKER_WEB /bin/bash -c "composerCommand($*)"
+        docker exec -it $DOCKER_WEB /bin/bash -c "composerCommand $*"
         ;;
 
     win-composer)
@@ -165,7 +188,7 @@ pmasetup() {
             cp docker/build/php-mongo-web/config/env.example .env
         fi
 
-        winpty docker exec -it $DOCKER_WEB bash -c "cd /usr/share/phpMongoAdmin && composerCommand($*)"
+        winpty docker exec -it $DOCKER_WEB bash -c "cd /usr/share/phpMongoAdmin && composerCommand $*"
         ;;
 
     queue)
