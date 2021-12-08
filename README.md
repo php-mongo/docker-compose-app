@@ -27,9 +27,12 @@ If you want to use this application with a MongoDB data image included use this 
 - On Windows * installing Docker Desktop should provide the required environment
 
 ## Quick Start
-Run this command from an empty directory to fetch the repository and begin the setup process:  
-$ wget https://phpmongoadmin.com/install/docker-app.sh -O - | bash  
-For Windows * you can download & install 'wget' from here: [gnuwin32](http://gnuwin32.sourceforge.net/packages/wget.htm)
+Run this command from an empty directory to fetch the repository and begin the setup process:
+- $ wget https://phpmongoadmin.com/install/docker-app.sh -O - | bash  
+  For Windows * you can download & install 'wget' from here: [gnuwin32](http://gnuwin32.sourceforge.net/packages/wget.htm)   
+  Using wget on Windows may result in a certificate error:
+- $ wget --no-check-certificate https://phpmongoadmin.com/install/docker-app.sh -O - | bash
+
 
 ## How it works
 The application will be installed into the Host container at /usr/share/phpMongoAdmin  
