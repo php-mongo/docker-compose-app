@@ -64,28 +64,28 @@ pmasetup() {
     }
 
     do-composer () {
-        docker exec $DOCKER_WEB /bin/bash -c "cd /usr/share/phpMongoAdmin/ && composer install"
+        docker exec $DOCKER_WEB /bin/bash -c "composerInstall"
     }
 
     do-win-composer () {
-        winpty docker exec $DOCKER_WEB bash -c "cd /usr/share/phpMongoAdmin/ && composer install"
+        winpty docker exec $DOCKER_WEB bash -c "composerInstall"
     }
 
     do-setup () {
         # Linux presented some issues with file permissions
-        docker exec $DOCKER_WEB /bin/bash -c "cd /usr/share/phpMongoAdmin/ && chown -R www-data:www-data /usr/share/phpMongoAdmin && dosetup"
+        docker exec $DOCKER_WEB /bin/bash -c "dosetup"
     }
 
     do-win-setup () {
-        winpty docker exec $DOCKER_WEB bash -c "cd /usr/share/phpMongoAdmin/ && dosetup"
+        winpty docker exec $DOCKER_WEB bash -c "dosetup"
     }
 
     do-queue() {
-        docker exec -it $DOCKER_WEB /bin/bash -c "cd /usr/share/phpMongoAdmin && php artisan queue:work"
+        docker exec -it $DOCKER_WEB /bin/bash -c "startQueue"
     }
 
     do-win-queue() {
-        winpty docker exec -it $DOCKER_WEB bash -c "cd /usr/share/phpMongoAdmin && php artisan queue:work"
+        winpty docker exec -it $DOCKER_WEB bash -c "startQueue"
     }
 
     # not used yet
@@ -153,7 +153,7 @@ pmasetup() {
             cp docker/build/php-mongo-web/config/env.example .env
         fi
 
-        docker exec -it $DOCKER_WEB /bin/bash -c "cd /usr/share/phpMongoAdmin && composer $*"
+        docker exec -it $DOCKER_WEB /bin/bash -c "composerCommand($*)"
         ;;
 
     win-composer)
@@ -165,7 +165,7 @@ pmasetup() {
             cp docker/build/php-mongo-web/config/env.example .env
         fi
 
-        winpty docker exec -it $DOCKER_WEB bash -c "cd /usr/share/phpMongoAdmin && composer $*"
+        winpty docker exec -it $DOCKER_WEB bash -c "cd /usr/share/phpMongoAdmin && composerCommand($*)"
         ;;
 
     queue)
