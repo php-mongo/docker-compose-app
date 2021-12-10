@@ -33,7 +33,6 @@ For Windows * you can download & install 'wget' from here: [gnuwin32](http://gnu
 Using wget on Windows may result in a certificate error:
 - $ wget --no-check-certificate https://phpmongoadmin.com/install/docker-app.sh -O - | bash
 
-
 ## How it works
 The application will be installed into the Host container at /usr/share/phpMongoAdmin  
 An apache config will be copied to /etc/apache2/conf-available/phpMongoAdmin.conf and will be linked to /etc/apache2/conf-enabled/phpMongoAdmin.conf  
@@ -81,7 +80,8 @@ Follow these steps to set up the environment:
 
 #### Now you are ready to execute the setup commands
 
-Type these commands at a prompt in the application root:
+Type these commands at the prompt in the application root:  
+<b>Hint!</b> the first time you build the application, when prompted to generate a new Encryption key: 1) Yes  
 
 - source docker/pmasetup.sh
 - On Windows:
